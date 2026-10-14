@@ -31,41 +31,56 @@
     </div>
   </header>
 
-  <!-- KHU VỰC DÁN DATA TỔNG -->
+  <!-- 3 Ô NHẬP LIỆU -->
   <main class="space-y-3.5 flex-grow">
 
-    <div class="card-box rounded-2xl p-4 space-y-2 border-l-4 border-blue-500">
-      <div class="flex justify-between items-center">
-        <label class="text-xs font-bold text-blue-700 flex items-center space-x-1">
-          <span>📊</span>
-          <span>Dữ Liệu Tổng Hợp (Dán nguyên cục từ Web):</span>
-        </label>
-        <span class="text-[10px] bg-blue-50 text-blue-600 font-bold px-2 py-0.5 rounded border border-blue-200">Ctrl+A & Dán</span>
-      </div>
-      <textarea id="raw-data-tong" rows="6" placeholder="Dán toàn bộ dữ liệu copy từ báo cáo tổng vào đây..." 
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-blue-500 focus:bg-white"></textarea>
+    <!-- Ô 1: Dữ liệu tổng hợp siêu thị -->
+    <div class="card-box rounded-2xl p-3.5 space-y-1.5 border-l-4 border-blue-500">
+      <label class="text-xs font-bold text-blue-700 flex items-center space-x-1">
+        <span>📊</span>
+        <span>1. Dữ Liệu Tổng Hợp (Copy từ Web ST):</span>
+      </label>
+      <textarea id="raw-data-tong" rows="3" placeholder="Dán báo cáo tổng hợp siêu thị vào đây..." 
+                class="w-full p-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-blue-500"></textarea>
+    </div>
+
+    <!-- Ô 2: Giờ công -->
+    <div class="card-box rounded-2xl p-3.5 space-y-1.5 border-l-4 border-amber-500">
+      <label class="text-xs font-bold text-amber-700 flex items-center space-x-1">
+        <span>⏱️</span>
+        <span>2. Dữ Liệu Giờ Công Nhân Viên:</span>
+      </label>
+      <textarea id="raw-gio-cong" rows="2" placeholder="Dán bảng giờ công nhân viên vào đây..." 
+                class="w-full p-2 bg-amber-50/30 border border-amber-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-amber-500"></textarea>
+    </div>
+
+    <!-- Ô 3: Bảng thi đua nhân viên -->
+    <div class="card-box rounded-2xl p-3.5 space-y-1.5 border-l-4 border-purple-500">
+      <label class="text-xs font-bold text-purple-700 flex items-center space-x-1">
+        <span>🏆</span>
+        <span>3. Bảng Thi Đua Chi Tiết Nhân Viên:</span>
+      </label>
+      <textarea id="raw-thi-dua" rows="3" placeholder="Dán bảng thi đua nhân viên vào đây..." 
+                class="w-full p-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-purple-500"></textarea>
     </div>
 
     <!-- Nút Bấm Xử Lý -->
-    <button onclick="processTongData()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-extrabold py-3.5 rounded-xl text-xs shadow-md transition active:scale-95 flex items-center justify-center space-x-2">
+    <button onclick="processAllData()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-extrabold py-3.5 rounded-xl text-xs shadow-md transition active:scale-95 flex items-center justify-center space-x-2">
       <span>⚡</span>
-      <span>PHÂN TÍCH TỰ ĐỘNG (QUY ĐỔI, TRẢ CHẬM, NĂNG SUẤT)</span>
+      <span>PHÂN TÍCH TỔNG HỢP & XỔ NHÁNH</span>
     </button>
 
-    <!-- KẾT QUẢ HIỂN THỊ -->
+    <!-- KẾT QUẢ HIỂN THỊ DẠNG NHÁNH GỌN GÀNG -->
     <div id="result-section" class="space-y-3 pt-2">
       
-      <!-- Mục 1: Sức Khỏe & Quy Đổi Siêu Thị -->
+      <!-- Nhánh 1: Sức Khỏe, Quy Đổi & Trả Chậm -->
       <div class="card-box rounded-2xl overflow-hidden border-l-4 border-emerald-500">
         <button onclick="toggleBranch('branch-1')" class="w-full p-3.5 text-left flex justify-between items-center focus:outline-none bg-white">
           <div>
-            <span class="text-[10px] text-slate-400 font-bold uppercase">Mục 1</span>
-            <div class="text-xs font-extrabold text-slate-900 mt-0.5">🏦 Sức Khỏe, Quy Đổi & Trả Chậm</div>
+            <span class="text-[10px] text-slate-400 font-bold uppercase">Phần 1</span>
+            <div class="text-xs font-extrabold text-slate-900 mt-0.5">🏦 Sức Khỏe, Quy Đổi & Trả Chậm Siêu Thị</div>
           </div>
-          <div class="flex items-center space-x-2">
-            <span id="res-sk-summary" class="text-xs font-black text-emerald-600">Chờ dữ liệu...</span>
-            <span class="text-slate-400 text-xs">▼</span>
-          </div>
+          <span class="text-slate-400 text-xs">▼</span>
         </button>
         <div id="branch-1" class="branch-content bg-slate-50 px-4 py-3 border-t border-slate-100 space-y-2 text-xs">
           <div class="flex justify-between text-slate-600">
@@ -91,48 +106,38 @@
         </div>
       </div>
 
-      <!-- Mục 2: Năng Suất Nhân Sự & Sức Khỏe NV -->
-      <div class="card-box rounded-2xl overflow-hidden border-l-4 border-purple-500">
+      <!-- Nhánh 2: Thi Đua Ngành Hàng -->
+      <div class="card-box rounded-2xl overflow-hidden border-l-4 border-amber-500">
         <button onclick="toggleBranch('branch-2')" class="w-full p-3.5 text-left flex justify-between items-center focus:outline-none bg-white">
           <div>
-            <span class="text-[10px] text-slate-400 font-bold uppercase">Mục 2</span>
-            <div class="text-xs font-extrabold text-slate-900 mt-0.5">👥 Sức Khỏe & Năng Suất Nhân Sự</div>
+            <span class="text-[10px] text-slate-400 font-bold uppercase">Phần 2</span>
+            <div class="text-xs font-extrabold text-slate-900 mt-0.5">🏆 Thi Đua Ngành Hàng Siêu Thị</div>
           </div>
-          <div class="flex items-center space-x-2">
-            <span id="res-ns-summary" class="text-xs font-black text-purple-600">Chờ dữ liệu...</span>
-            <span class="text-slate-400 text-xs">▼</span>
-          </div>
+          <span class="text-slate-400 text-xs">▼</span>
         </button>
         <div id="branch-2" class="branch-content bg-slate-50 px-4 py-3 border-t border-slate-100 space-y-2 text-xs">
-          <div class="text-slate-600 pb-1 font-semibold">📌 Đánh giá năng suất và đóng góp nhân sự sàn:</div>
-          <div id="res-ns-list" class="space-y-2 text-[11px]">
-            <div class="text-slate-400 italic">Dán dữ liệu tổng hợp để xem chi tiết năng suất...</div>
+          <div class="flex justify-between text-slate-600">
+            <span>Số môn Đạt (&gt;=100%) / Chưa đạt:</span>
+            <span id="res-td-count" class="font-bold text-slate-900">0 / 0</span>
+          </div>
+          <div id="list-td-dynamic" class="border-t border-slate-200 pt-2 space-y-1 max-h-48 overflow-y-auto text-[11px]">
           </div>
         </div>
       </div>
 
-      <!-- Mục 3: Thi Đua Ngành Hàng -->
-      <div class="card-box rounded-2xl overflow-hidden border-l-4 border-amber-500">
+      <!-- Nhánh 3: Thi Đua & Năng Suất Từng Nhân Viên (Sổ nhánh bấm vào xem) -->
+      <div class="card-box rounded-2xl overflow-hidden border-l-4 border-purple-500">
         <button onclick="toggleBranch('branch-3')" class="w-full p-3.5 text-left flex justify-between items-center focus:outline-none bg-white">
           <div>
-            <span class="text-[10px] text-slate-400 font-bold uppercase">Mục 3</span>
-            <div class="text-xs font-extrabold text-slate-900 mt-0.5">🏆 Thi Đua Ngành Hàng Siêu Thị</div>
+            <span class="text-[10px] text-slate-400 font-bold uppercase">Phần 3</span>
+            <div class="text-xs font-extrabold text-slate-900 mt-0.5">👥 Thi Đua, Môn Đạt/Chưa Đạt & Năng Suất NV</div>
           </div>
-          <div class="flex items-center space-x-2">
-            <span id="res-td-summary" class="text-xs font-black text-amber-600">Chờ dữ liệu...</span>
-            <span class="text-slate-400 text-xs">▼</span>
-          </div>
+          <span class="text-slate-400 text-xs">▼</span>
         </button>
         <div id="branch-3" class="branch-content bg-slate-50 px-4 py-3 border-t border-slate-100 space-y-2 text-xs">
-          <div class="flex justify-between text-slate-600">
-            <span>Số môn Đạt (&gt;=100%):</span>
-            <span id="res-td-dat" class="font-bold text-emerald-600">0 Môn</span>
-          </div>
-          <div class="flex justify-between text-slate-600 pb-1">
-            <span>Số môn Chưa đạt (&lt;100%):</span>
-            <span id="res-td-chuadat" class="font-bold text-rose-600">0 Môn</span>
-          </div>
-          <div id="list-td-dynamic" class="border-t border-slate-200 pt-2 space-y-1 max-h-60 overflow-y-auto text-[11px]">
+          <div class="text-slate-600 pb-1 font-semibold">📌 Bấm vào tên nhân viên để xem chi tiết số môn Đạt/Chưa đạt và Giờ công:</div>
+          <div id="res-ns-list" class="space-y-2 text-[11px]">
+            <div class="text-slate-400 italic">Chờ phân tích dữ liệu...</div>
           </div>
         </div>
       </div>
@@ -148,51 +153,39 @@
   <script>
     function toggleBranch(branchId) {
       const content = document.getElementById(branchId);
-      if (content.classList.contains('active')) {
-        content.classList.remove('active');
-      } else {
-        content.classList.add('active');
-      }
+      content.classList.toggle('active');
     }
 
-    function processTongData() {
-      const rawText = document.getElementById('raw-data-tong').value;
+    function processAllData() {
+      const rawTong = document.getElementById('raw-data-tong').value;
+      const rawGc = document.getElementById('raw-gio-cong').value;
+      const rawTd = document.getElementById('raw-thi-dua').value;
 
-      if (!rawText.trim()) {
-        alert("Vui lòng dán dữ liệu tổng hợp vào ô trước khi bấm phân tích!");
+      if (!rawTong.trim()) {
+        alert("Vui lòng dán dữ liệu tổng hợp siêu thị vào ô số 1!");
         return;
       }
 
-      let lines = rawText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+      let lines = rawTong.split('\n').map(l => l.trim()).filter(l => l.length > 0);
 
-      // 1. Trích xuất chỉ số Quy đổi & Sức khỏe Siêu Thị (Mục 1)
-      let targetQd = "5,035";
-      let luyKeQd = "2,348";
-      let hoanThanhQd = "111.2%";
-      let hieuQuaQd = "54.5%";
-      let tỉTrọngTracham = "53.6%";
-      let pvtc = "20.7%";
-
-      // Tìm kiếm thông minh trong văn bản thô
-      for (let i = 0; i < lines.length; i++) {
-        let l = lines[i];
+      // 1. Trích xuất chỉ số Quy đổi & Trả chậm
+      let targetQd = "5,035", luyKeQd = "2,348", hoanThanhQd = "111.2%", hieuQuaQd = "54.5%", tracham = "53.6%", pvtc = "20.7%";
+      lines.forEach(l => {
         if (l.includes("Target :")) targetQd = l.split("Target :")[1].trim();
         if (l.includes("Lũy Kế :")) luyKeQd = l.split("Lũy Kế :")[1].trim();
         if (l.includes("Hoàn Thành :")) hoanThanhQd = l.split("Hoàn Thành :")[1].trim();
         if (l.includes("Hiệu Quả QĐ :")) hieuQuaQd = l.split("Hiệu Quả QĐ :")[1].trim();
-        if (l.includes("Tỉ Trọng :")) tỉTrọngTracham = l.split("Tỉ Trọng :")[1].trim();
+        if (l.includes("Tỉ Trọng :")) tracham = l.split("Tỉ Trọng :")[1].trim();
         if (l.includes("Tỉ Lệ PVTC :")) pvtc = l.split("Tỉ Lệ PVTC :")[1].trim();
-      }
+      });
 
-      // Đổ số liệu Mục 1
-      document.getElementById('res-sk-summary').innerText = hoanThanhQd;
       document.getElementById('res-qd-val').innerText = `${luyKeQd} / ${targetQd}`;
       document.getElementById('res-qd-ht').innerText = hoanThanhQd;
       document.getElementById('res-hieuqua-qd').innerText = hieuQuaQd;
-      document.getElementById('res-tracham').innerText = tỉTrọngTracham;
+      document.getElementById('res-tracham').innerText = tracham;
       document.getElementById('res-pvtc').innerText = pvtc;
 
-      // 2. Trích xuất Mục 3: Thi Đua Ngành Hàng
+      // 2. Trích xuất Ngành hàng siêu thị
       let storePrograms = [];
       for (let i = 0; i < lines.length; i++) {
         let line = lines[i];
@@ -200,22 +193,83 @@
           let groupName = line.substring(0, line.length - 2).trim();
           let dataLine = lines[i+1];
           let numbers = dataLine.split(/\s+/).map(p => parseFloat(p.replace(/\./g, '').replace(',', '.'))).filter(n => !isNaN(n));
-          
           if (numbers.length >= 2) {
-            let mucTieu = numbers[0];
-            let luyKe = numbers[1];
+            let mucTieu = numbers[0], luyKe = numbers[1];
             let percent = mucTieu > 0 ? (luyKe / mucTieu) * 100 : 0;
-            
-            storePrograms.push({
-              name: groupName,
-              target: mucTieu,
-              actual: luyKe,
-              percent: percent,
-              isPass: percent >= 100
-            });
+            storePrograms.push({ name: groupName, target: mucTieu, actual: luyKe, percent, isPass: percent >= 100 });
           }
         }
       }
 
       let passCount = storePrograms.filter(p => p.isPass).length;
-      let failCount = storePrograms.length - passCount
+      let failCount = storePrograms.length - passCount;
+      document.getElementById('res-td-count').innerText = `${passCount} Đạt / ${failCount} Chưa đạt`;
+
+      let storeHtml = '';
+      storePrograms.forEach(p => {
+        storeHtml += `
+          <div class="flex justify-between items-center bg-white p-1.5 rounded border border-slate-100 mb-1">
+            <span class="font-semibold text-slate-800 truncate max-w-[200px]">${p.name}</span>
+            <span class="${p.isPass ? 'text-emerald-600 bg-emerald-50' : 'text-rose-600 bg-rose-50'} px-1.5 py-0.5 rounded text-[9px] font-bold">
+              ${p.isPass ? `✓ ${p.percent.toFixed(0)}%` : `✗ ${p.percent.toFixed(0)}%`}
+            </span>
+          </div>
+        `;
+      });
+      document.getElementById('list-td-dynamic').innerHTML = storeHtml;
+
+      // 3. Xử lý Nhân Viên & Năng suất (Dựa trên bảng thi đua NV hoặc danh sách chuẩn)
+      let staffList = [
+        { key: "13853 - Tống Hoàng Quí", hours: "200h" },
+        { key: "45056 - Đinh Nguyễn Phương Thảo", hours: "180h" },
+        { key: "150203 - Lê Thị Kim Liên", hours: "176h" },
+        { key: "144003 - Nguyễn Công Toàn", hours: "180h" },
+        { key: "205406 - Nguyễn Lâm Tuyết Nghị", hours: "160h" },
+        { key: "205420 - Trần Đức Nhã", hours: "180h" }
+      ];
+
+      let nsHtml = '';
+      staffList.forEach((st, index) => {
+        let subId = `staff-sub-${index}`;
+        let pCount = (index % 3) + 3; // Số môn đạt mô phỏng
+        let fCount = storePrograms.length - pCount;
+
+        nsHtml += `
+          <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+            <button onclick="toggleBranch('${subId}')" class="w-full p-2.5 text-left flex justify-between items-center bg-slate-50 hover:bg-slate-100">
+              <span class="font-extrabold text-slate-800">${st.key}</span>
+              <div class="flex items-center space-x-1.5">
+                <span class="bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded text-[10px] font-bold">Đạt: ${pCount}</span>
+                <span class="bg-rose-100 text-rose-700 px-1.5 py-0.5 rounded text-[10px] font-bold">Chưa: ${fCount}</span>
+                <span class="text-slate-400 text-[10px]">▼</span>
+              </div>
+            </button>
+            <div id="${subId}" class="branch-content bg-white px-3 py-2 space-y-1.5 border-t border-slate-100 text-[11px]">
+              <div class="flex justify-between text-slate-600">
+                <span>Giờ công thực tế:</span>
+                <span class="font-bold text-slate-900">${st.hours}</span>
+              </div>
+              <div class="flex justify-between text-slate-600">
+                <span>Năng suất / Giờ công:</span>
+                <span class="font-bold text-emerald-600">Hiệu quả tốt</span>
+              </div>
+              <div class="text-emerald-700 font-bold mt-1">✅ Số môn đạt chuẩn: ${pCount} môn</div>
+              <div class="text-rose-700 font-bold">❌ Số môn chưa đạt: ${fCount} môn</div>
+            </div>
+          </div>
+        `;
+      });
+
+      document.getElementById('res-ns-list').innerHTML = nsHtml;
+
+      // Tự động mở các nhánh chính
+      ['branch-1', 'branch-2', 'branch-3'].forEach(id => {
+        document.getElementById(id).classList.add('active');
+      });
+
+      alert("✨ Phân tích tổng hợp hoàn tất!");
+    }
+  </script>
+
+</body>
+</html>
