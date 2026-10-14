@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Store Management Dashboard - MWG</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: #0b0f19; }
+    .glass-card {
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .branch-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+    }
+    .branch-content.active {
+      max-height: 500px;
+      transition: max-height 0.3s ease-in, padding 0.3s ease-in;
+    }
+  </style>
+</head>
+<body class="text-slate-100 min-h-screen flex flex-col justify-between p-3.5 max-w-md mx-auto">
+
+  <!-- Header -->
+  <header class="glass-card rounded-2xl p-4 mb-3.5 flex justify-between items-center shadow-lg">
+    <div>
+      <span class="text-[10px] bg-emerald-500/10 text-emerald-400 font-bold px-2 py-0.5 rounded-full border border-emerald-500/30">QUẢN LÝ SIÊU THỊ</span>
+      <h1 class="text-base font-extrabold text-white mt-1">Dashboard Nhập Số Liệu</h1>
+    </div>
+    <div class="text-right">
+      <div class="text-xs font-bold text-slate-300">Quí Tống Hoàng</div>
+      <div class="text-[10px] text-emerald-400 font-semibold">Mã NV: 13853</div>
+    </div>
+  </header>
+
+  <!-- KHU VỰC NHẬP LIỆU NHANH (COPY & PASTE) -->
+  <div class="glass-card rounded-2xl p-4 mb-3.5 space-y-3 border border-emerald-500/30">
+    <div class="flex justify-between items-center">
+      <h3 class="text-xs font-bold text-emerald-400 uppercase tracking-wider">📥 Nhập / Dán Số Liệu Cập Nhật</h3>
+      <span class="text-[9px] text-slate-400">Tự động tính toán</span>
+    </div>
+    
+    <div class="grid grid-cols-2 gap-2 text-xs">
+      <div>
+        <label class="block text-[10px] text-slate-400 font-bold mb-1">Doanh thu thực (Đ)</label>
+        <input type="number" id="input-dt-thuc" value="1450000000" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white font-bold text-xs focus:outline-none focus:border-emerald-500">
+      </div>
+      <div>
+        <label class="block text-[10px] text-slate-400 font-bold mb-1">Mục tiêu KPI (Đ)</label>
+        <input type="number" id="input-kpi" value="1700000000" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white font-bold text-xs focus:outline-none focus:border-emerald-500">
+      </div>
+      <div>
+        <label class="block text-[10px] text-slate-400 font-bold mb-1">Số ngày còn lại</label>
+        <input type="number" id="input-ngay-con" value="20" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white font-bold text-xs focus:outline-none focus:border-emerald-500">
+      </div>
+      <div>
+        <label class="block text-[10px] text-slate-400 font-bold mb-1">Số bill dự kiến</label>
+        <input type="number" id="input-bill" value="780" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white font-bold text-xs focus:outline-none focus:border-emerald-500">
+      </div>
+    </div>
+
+    <!-- Ô nhập Thi đua & Sân nhân sự -->
+    <div class="grid grid-cols-2 gap-2 text-xs pt-1 border-t border-slate-800">
+      <div>
+        <label class="block text-[10px] text-slate-400 font-bold mb-1">Thi đua (Đạt / Tổng môn)</label>
+        <div class="flex space-x-1">
+          <input type="number" id="input-td-dat" value="4" class="w-1/2 bg-slate-900 border border-slate-700 rounded-lg p-2 text-white font-bold text-xs text-center">
+          <input type="number" id="input-td-tong" value="5" class="w-1/2 bg-slate-900 border border-slate-700 rounded-lg p-2 text-white font-bold text-xs text-center">
+        </div>
+      </div>
+      <div>
+        <label class="block text-[10px] text-slate-400 font-bold mb-1">Nhân sự (Đạt / Tổng)</label>
+        <div class="flex space-x-1">
+          <input type="number" id="input-ns-dat" value="12" class="w-1/2 bg-slate-900 border border-slate-700 rounded-lg p-2 text-white font-bold text-xs text-center">
+          <input type="number" id="input-ns-tong" value="14" class="w-1/2 bg-slate-900 border border-slate-700 rounded-lg p-2 text-white font-bold text-xs text-center">
+        </div>
+      </div>
+    </div>
+
+    <button onclick="processData()" class="w-full bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 font-extrabold py-2.5 rounded-xl text-xs transition shadow-lg shadow-emerald-500/20 active:scale-95">
+      ⚡ BẤM XỬ LÝ & CẬP NHẬT SỐ LIỆU
+    </button>
+  </div>
+
+  <!-- Main Dashboard (Dạng Nút - Nhánh Sổ Ra) -->
+  <main class="space-y-3 flex-grow">
+
+    <!-- 1. DOANH THU THỰC -->
+    <div class="glass-card rounded-2xl overflow-hidden shadow-xl border-l-4 border-emerald-500">
+      <button onclick="toggleBranch('branch-dt-thuc', this)" class="w-full p-4 text-left flex justify-between items-center focus:outline-none">
+        <div>
+          <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Mục 1</span>
+          <div class="text-sm font-extrabold text-white flex items-center space-x-2 mt-0.5">
+            <span>📊 Doanh Thu Thực & Tiến Độ</span>
+          </div>
+        </div>
+        <div class="flex items-center space-x-2">
+          <span id="ui-dt-thuc" class="text-xs font-black text-emerald-400">1.45 Tỷ</span>
+          <span class="transform transition-transform duration-300 text-slate-400 text-xs arrow-icon">▼</span>
+        </div>
+      </button>
+      
+      <div id="branch-dt-thuc" class="branch-content bg-slate-900/60 px-4 border-t border-slate-800/80 space-y-2.5 text-xs">
+        <div class="pt-3 flex justify-between text-slate-300">
+          <span>Còn thiếu so với mục tiêu:</span>
+          <span id="ui-con-thieu" class="font-bold text-rose-400">250,000,000 đ</span>
+        </div>
+        <div class="flex justify-between text-slate-300">
+          <span>Cần chạy mỗi ngày (Bình quân):</span>
+          <span id="ui-chay-ngay" class="font-bold text-emerald-400">12,500,000 đ / ngày</span>
+        </div>
+        <div class="flex justify-between text-slate-300 pb-3">
+          <span>Đơn giá TB cần đạt/bill:</span>
+          <span id="ui-don-gia" class="font-bold text-amber-400">1,850,000 đ</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. DOANH THU LŨY KẾ -->
+    <div class="glass-card rounded-2xl overflow-hidden shadow-xl border-l-4 border-blue-500">
+      <button onclick="toggleBranch('branch-luy-ke', this)" class="w-full p-4 text-left flex justify-between items-center focus:outline-none">
+        <div>
+          <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Mục 2</span>
+          <div class="text-sm font-extrabold text-white flex items-center space-x-2 mt-0.5">
+            <span>📈 Doanh Thu Lũy Kế</span>
+          </div>
+        </div>
+        <div class="flex items-center space-x-2">
+          <span id="ui-phan-tram-kpi" class="text-xs font-black text-blue-400">85.2% KPI</span>
+          <span class="transform transition-transform duration-300 text-slate-400 text-xs arrow-icon">▼</span>
+        </div>
+      </button>
+      
+      <div id="branch-luy-ke" class="branch-content bg-slate-900/60 px-4 border-t border-slate-800/80 space-y-2.5 text-xs">
+        <div class="pt-3 flex justify-between text-slate-300">
+          <span>Lũy kế thực tế tháng:</span>
+          <span id="ui-luy-ke-thuc" class="font-bold text-white">1,450,000,000 đ</span>
+        </div>
+        <div class="flex justify-between text-slate-300">
+          <span>Mục tiêu KPI tháng:</span>
+          <span id="ui-mucos-kpi" class="font-bold text-slate-300">1,700,000,000 đ</span>
+        </div>
+        <div class="flex justify-between text-slate-300 pb-3">
+          <span>Tỷ lệ hoàn thành:</span>
+          <span id="ui-ti-le-ht
