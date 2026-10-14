@@ -19,7 +19,7 @@
       transition: max-height 0.35s cubic-bezier(0, 1, 0, 1);
     }
     .branch-content.active {
-      max-height: 1000px;
+      max-height: 2000px;
       transition: max-height 0.5s ease-in-out;
     }
   </style>
@@ -29,8 +29,8 @@
   <!-- Header -->
   <header class="card-box rounded-2xl p-4 mb-3.5 flex justify-between items-center shadow-sm">
     <div>
-      <span class="text-[10px] bg-blue-50 text-blue-600 font-bold px-2 py-0.5 rounded-full border border-blue-200">MWG 5.0</span>
-      <h1 class="text-sm font-extrabold text-slate-900 mt-1">Phân Tích Số QLST</h1>
+      <span class="text-[10px] bg-blue-50 text-blue-600 font-bold px-2 py-0.5 rounded-full border border-blue-200">1453 - TGD_VLO_LHO</span>
+      <h1 class="text-sm font-extrabold text-slate-900 mt-1">Phân Tích Số QLST 5.0</h1>
     </div>
     <div class="text-right">
       <div class="text-xs font-bold text-slate-700">Quí Tống Hoàng</div>
@@ -38,32 +38,32 @@
     </div>
   </header>
 
-  <!-- KHU VỰC DÁN DATA CTRL+A TỪ DMX / BI -->
+  <!-- KHU VỰC DÁN DATA TỪ DMX / BI -->
   <main class="space-y-3.5 flex-grow">
 
-    <!-- 1. Doanh thu BI / Tổng hợp -->
+    <!-- 1. Doanh thu BI -->
     <div class="card-box rounded-2xl p-4 space-y-2">
       <div class="flex justify-between items-center">
         <label class="text-xs font-bold text-blue-700 flex items-center space-x-1">
           <span>📊</span>
-          <span>Doanh thu BI & Báo cáo: <span class="text-[10px] font-normal text-slate-500">(Ctrl+A Paste từ DMX)</span></span>
+          <span>Doanh thu BI & Báo cáo: <span class="text-[10px] font-normal text-slate-500">(Paste Ctrl+A DMX)</span></span>
         </label>
         <span class="text-[10px] bg-slate-100 text-slate-600 font-bold px-2 py-0.5 rounded">Dữ liệu thô</span>
       </div>
-      <textarea id="raw-doanh-thu" rows="3" placeholder="Ctrl+A rồi Paste toàn bộ trang báo cáo DMX / BI vào đây..." 
+      <textarea id="raw-doanh-thu" rows="3" placeholder="Paste toàn bộ báo cáo Doanh thu DMX/BI vào đây..." 
                 class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-700 focus:outline-none focus:border-blue-500 focus:bg-white"></textarea>
     </div>
 
-    <!-- 2. Thi đua nhân viên -->
+    <!-- 2. Thi đua & Nhân sự -->
     <div class="card-box rounded-2xl p-4 space-y-2">
       <div class="flex justify-between items-center">
         <label class="text-xs font-bold text-blue-700 flex items-center space-x-1">
           <span>🏆</span>
-          <span>Thi đua chương trình: <span class="text-[10px] font-normal text-slate-500">(Paste bảng Thi đua DMX)</span></span>
+          <span>Bảng Thi đua nhân viên: <span class="text-[10px] font-normal text-slate-500">(Paste bảng Thi đua DMX)</span></span>
         </label>
         <span class="text-[10px] bg-slate-100 text-slate-600 font-bold px-2 py-0.5 rounded">Dữ liệu thô</span>
       </div>
-      <textarea id="raw-thi-dua" rows="3" placeholder="Dán bảng chương trình Thi đua (iPhone, Nạp rút tiền...) vào đây..." 
+      <textarea id="raw-thi-dua" rows="3" placeholder="Paste bảng Thi đua cá nhân/chương trình vào đây..." 
                 class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-700 focus:outline-none focus:border-blue-500 focus:bg-white"></textarea>
     </div>
 
@@ -73,7 +73,7 @@
       <span>PHÂN TÍCH & XUẤT BÁO CÁO TRỰC QUAN</span>
     </button>
 
-    <!-- KẾT QUẢ HIỂN THỊ (DẠNG NÚT - NHÁNH SỔ RA) -->
+    <!-- KẾT QUẢ HIỂN THỊ -->
     <div id="result-section" class="space-y-3 pt-2">
       
       <!-- Mục 1: Doanh thu thực -->
@@ -114,208 +114,4 @@
           <div>
             <span class="text-[10px] text-slate-400 font-bold uppercase">Mục 2</span>
             <div class="text-xs font-extrabold text-slate-900 mt-0.5">📈 Doanh Thu Lũy Kế</div>
-          </div>
-          <div class="flex items-center space-x-2">
-            <span id="res-lk-summary" class="text-xs font-black text-blue-600">Chờ dữ liệu...</span>
-            <span class="transform transition-transform duration-300 text-slate-400 text-xs arrow-icon">▼</span>
-          </div>
-        </button>
-        <div id="branch-2" class="branch-content bg-slate-50 px-4 border-t border-slate-100 space-y-2 text-xs">
-          <div class="pt-3 flex justify-between text-slate-600">
-            <span>Lũy kế thực hiện:</span>
-            <span id="res-lk-thuc" class="font-bold text-slate-900">0 đ</span>
-          </div>
-          <div class="flex justify-between text-slate-600 pb-3">
-            <span>Tiến độ hoàn thành KPI:</span>
-            <span id="res-lk-phantram" class="font-bold text-blue-600">0%</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Mục 3: Thi Đua Chương Trình -->
-      <div class="card-box rounded-2xl overflow-hidden border-l-4 border-amber-500">
-        <button onclick="toggleBranch('branch-3', this)" class="w-full p-3.5 text-left flex justify-between items-center focus:outline-none bg-white">
-          <div>
-            <span class="text-[10px] text-slate-400 font-bold uppercase">Mục 3</span>
-            <div class="text-xs font-extrabold text-slate-900 mt-0.5">🏆 Thi Đua (Đạt / Chưa Đạt Môn)</div>
-          </div>
-          <div class="flex items-center space-x-2">
-            <span id="res-td-summary" class="text-xs font-black text-amber-600">Chờ dữ liệu...</span>
-            <span class="transform transition-transform duration-300 text-slate-400 text-xs arrow-icon">▼</span>
-          </div>
-        </button>
-        <div id="branch-3" class="branch-content bg-slate-50 px-4 border-t border-slate-100 space-y-2 text-xs">
-          <div class="pt-3 flex justify-between text-slate-600">
-            <span>Chương trình thi đua ghi nhận:</span>
-            <span id="res-td-tongmon" class="font-bold text-slate-900">0 Chương trình</span>
-          </div>
-          <div class="flex justify-between text-slate-600">
-            <span>Số môn / nhân sự đạt mốc:</span>
-            <span id="res-td-dat" class="font-bold text-emerald-600">0 Môn</span>
-          </div>
-          <div class="flex justify-between text-slate-600 pb-3">
-            <span>Số môn / nhân sự cần đẩy doanh số:</span>
-            <span id="res-td-chuadat" class="font-bold text-rose-600">0 Môn</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Mục 4: Sức Khỏe Nhân Viên (Bóc tách tự động từ danh sách NV) -->
-      <div class="card-box rounded-2xl overflow-hidden border-l-4 border-purple-500">
-        <button onclick="toggleBranch('branch-4', this)" class="w-full p-3.5 text-left flex justify-between items-center focus:outline-none bg-white">
-          <div>
-            <span class="text-[10px] text-slate-400 font-bold uppercase">Mục 4</span>
-            <div class="text-xs font-extrabold text-slate-900 mt-0.5">👥 Sức Khỏe & Hiệu Suất Nhân Sự</div>
-          </div>
-          <div class="flex items-center space-x-2">
-            <span id="res-ns-summary" class="text-xs font-black text-purple-600">Chờ dữ liệu...</span>
-            <span class="transform transition-transform duration-300 text-slate-400 text-xs arrow-icon">▼</span>
-          </div>
-        </button>
-        <div id="branch-4" class="branch-content bg-slate-50 px-4 border-t border-slate-100 space-y-2 text-xs">
-          <div class="pt-3 flex justify-between text-slate-600">
-            <span>Tổng nhân sự phát sinh số:</span>
-            <span id="res-ns-tong" class="font-bold text-slate-900">0 Nhân viên</span>
-          </div>
-          <div class="flex justify-between text-slate-600">
-            <span>Nhân sự đạt chỉ tiêu / phong độ tốt:</span>
-            <span id="res-ns-dat" class="font-bold text-emerald-600">0 Người</span>
-          </div>
-          <div class="flex justify-between text-slate-600 pb-3">
-            <span>Nhân sự doanh số thấp / cần đôn đốc:</span>
-            <span id="res-ns-chuadat" class="font-bold text-rose-600">0 Người</span>
-          </div>
-          <!-- Bảng danh sách chi tiết nhân viên dán vào -->
-          <div id="res-ns-list" class="border-t border-slate-200 pt-2 pb-3 space-y-1 text-[11px]">
-            <!-- Sẽ tự động render danh sách NV ở đây -->
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-  </main>
-
-  <footer class="text-center py-3 text-[10px] text-slate-400">
-    © 2026 QLST MWG 5.0 - Tool Phân Tích Dữ Liệu Nhanh
-  </footer>
-
-  <script>
-    function toggleBranch(branchId, buttonElement) {
-      const content = document.getElementById(branchId);
-      const arrow = buttonElement.querySelector('.arrow-icon');
-      if (content.classList.contains('active')) {
-        content.classList.remove('active');
-        arrow.style.transform = 'rotate(0deg)';
-      } else {
-        content.classList.add('active');
-        arrow.style.transform = 'rotate(180deg)';
-      }
-    }
-
-    function formatMoney(num) {
-      if (isNaN(num)) return '0 đ';
-      return Number(num).toLocaleString('vi-VN') + ' đ';
-    }
-
-    function processDmxData() {
-      const rawDt = document.getElementById('raw-doanh-thu').value;
-      const rawTd = document.getElementById('raw-thi-dua').value;
-
-      const combinedText = rawDt + "\n" + rawTd;
-
-      if (!combinedText.trim()) {
-        alert("Vui lòng dán dữ liệu copy từ trang DMX/BI vào trước khi bấm phân tích!");
-        return;
-      }
-
-      // 1. Thuật toán bóc tách Doanh Thu & Số Tiền từ chuỗi Paste DMX
-      const moneyMatches = combinedText.match(/[\d]{1,3}(?:\.[\d]{3})*(?:,[\d]+)?/g);
-      let totalRevenue = 0;
-
-      if (moneyMatches) {
-        const cleanNumbers = moneyMatches.map(m => {
-          return parseFloat(m.replace(/\./g, '').replace(',', '.'));
-        }).filter(n => n > 1000); // Lọc các số doanh thu lớn
-
-        if (cleanNumbers.length > 0) {
-          totalRevenue = Math.max(...cleanNumbers); // Lấy số lớn nhất làm Tổng doanh thu
-        }
-      }
-
-      // Giả lập KPI tiêu chuẩn siêu thị
-      const targetKPI = totalRevenue > 0 ? totalRevenue * 1.15 : 1800000000;
-      const conThieu = Math.max(0, targetKPI - totalRevenue);
-      const chayNgay = conThieu / 15; // Giả định còn 15 ngày
-      const donGiaTB = conThieu / 650; // Giả định 650 bill
-      const phanTram = ((totalRevenue / targetKPI) * 100).toFixed(1);
-
-      // 2. Thuật toán bóc tách Nhân Viên (Mã NV - Họ Tên) từ ảnh DMX
-      // Dạng regex bắt mẫu: "13853 - Tống Hoàng Quí" hoặc "45056 - Đinh Nguyễn..."
-      const nvRegex = /(\d{5,6})\s*-\s*([^\n\r\t\d]+)/g;
-      let match;
-      const staffList = [];
-      
-      while ((match = nvRegex.exec(combinedText)) !== null) {
-        const code = match[1].trim();
-        const name = match[2].trim();
-        if (!staffList.some(s => s.code === code)) {
-          staffList.push({ code, name });
-        }
-      }
-
-      // Đổ số liệu ra Mục 1 & 2
-      document.getElementById('res-dt-summary').innerText = (totalRevenue / 1000000).toFixed(1) + ' Tr';
-      document.getElementById('res-dt-thuc').innerText = formatMoney(totalRevenue);
-      document.getElementById('res-con-thieu').innerText = formatMoney(conThieu);
-      document.getElementById('res-chay-ngay').innerText = formatMoney(chayNgay) + ' / ngày';
-      document.getElementById('res-don-gia').innerText = formatMoney(donGiaTB);
-
-      document.getElementById('res-lk-summary').innerText = phanTram + '% KPI';
-      document.getElementById('res-lk-thuc').innerText = formatMoney(totalRevenue);
-      document.getElementById('res-lk-phantram').innerText = phanTram + '%';
-
-      // Đổ số liệu ra Mục 3 (Thi đua)
-      const progMatches = combinedText.match(/chương trình/gi);
-      const progCount = progMatches ? progMatches.length + 1 : 2;
-      document.getElementById('res-td-summary').innerText = `Đạt ${progCount - 1} / ${progCount} Môn`;
-      document.getElementById('res-td-tongmon').innerText = progCount + ' Chương trình';
-      document.getElementById('res-td-dat').innerText = (progCount - 1) + ' Môn';
-      document.getElementById('res-td-chuadat').innerText = '1 Môn';
-
-      // Đổ số liệu ra Mục 4 (Sức khỏe nhân sự)
-      const totalStaff = staffList.length > 0 ? staffList.length : 7;
-      const staffDat = Math.max(1, Math.floor(totalStaff * 0.75));
-      const staffChuaDat = totalStaff - staffDat;
-
-      document.getElementById('res-ns-summary').innerText = `${staffDat} / ${totalStaff} Đạt`;
-      document.getElementById('res-ns-tong').innerText = totalStaff + ' Nhân sự';
-      document.getElementById('res-ns-dat').innerText = staffDat + ' Người (Phong độ tốt)';
-      document.getElementById('res-ns-chuadat').innerText = staffChuaDat + ' Người (Cần đôn đốc)';
-
-      // Render danh sách chi tiết nhân viên tự động bóc ra từ DMX
-      const listContainer = document.getElementById('res-ns-list');
-      if (staffList.length > 0) {
-        let html = '<div class="font-bold text-slate-700 mb-1">📋 Danh sách NV phát sinh trong báo cáo:</div>';
-        staffList.forEach((st, idx) => {
-          const isGood = idx < staffDat;
-          html += `
-            <div class="flex justify-between items-center bg-white p-1.5 rounded border border-slate-100">
-              <span class="text-slate-800 font-semibold">${st.code} - ${st.name}</span>
-              <span class="${isGood ? 'text-emerald-600 bg-emerald-50' : 'text-rose-600 bg-rose-50'} px-1.5 py-0.5 rounded text-[9px] font-bold">
-                ${isGood ? '✓ Đạt phong độ' : '⚠ Đuối / Chưa đạt'}
-              </span>
-            </div>
-          `;
-        });
-        listContainer.innerHTML = html;
-      } else {
-        listContainer.innerHTML = '<div class="text-slate-400 italic">Dán bảng DMX có Mã NV - Họ tên để xem bóc tách chi tiết từng nhân viên.</div>';
-      }
-
-      alert("✨ Đã phân tích thành công dữ liệu copy từ DMX!");
-    }
-  </script>
-
-</body>
-</html>
+          
