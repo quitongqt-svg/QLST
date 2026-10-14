@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>QLST 1453 - Theo Dõi Chạy Số Nhân Viên</title>
+  <title>Báo Cáo Chạy Số Siêu Thị 1453</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8fafc; -webkit-tap-highlight-color: transparent; }
     .card-box { background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
@@ -17,7 +17,7 @@
 </head>
 <body class="text-slate-800 min-h-screen flex flex-col justify-between p-3.5 max-w-md mx-auto">
 
-  <!-- HEADER -->
+  <!-- HEADER RỬA SẠCH TIÊU ĐỀ -->
   <header class="card-box rounded-2xl p-4 mb-3.5 border-l-4 border-blue-600">
     <div class="flex justify-between items-center">
       <div>
@@ -25,7 +25,7 @@
         <h1 class="text-sm font-black text-slate-900 mt-1">THEO DÕI SỐ CHẠY NHÂN VIÊN</h1>
       </div>
       <div class="text-right">
-        <div class="text-xs font-bold text-slate-800">Quí Tống Hoàng</div>
+        <div class="text-xs font-bold text-slate-800">Tống Hoàng Quí</div>
         <div class="text-[10px] text-blue-600 font-semibold">13853</div>
       </div>
     </div>
@@ -33,27 +33,27 @@
 
   <main class="space-y-3 flex-grow">
 
-    <!-- Ô 1: Dán Bảng Siêu Thị để lấy Target -->
+    <!-- Ô 1: Dán Bảng Target Siêu Thị -->
     <div class="card-box rounded-2xl p-3 space-y-1.5 border-l-4 border-amber-500">
       <label class="text-xs font-bold text-amber-800 flex items-center space-x-1">
         <span>📦</span>
-        <span>1. Bảng Target Siêu Thị (Dán từ BI để lấy Target môn):</span>
+        <span>1. Dán Bảng Target Siêu Thị (Phú Quới):</span>
       </label>
-      <textarea id="raw-data-st" rows="2" placeholder="Dán bảng thi đua siêu thị để hệ thống lấy Target Tổng..." 
+      <textarea id="raw-data-st" rows="3" placeholder="Dán bảng target môn siêu thị có dòng Phú Quới..." 
                 class="w-full p-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-amber-500"></textarea>
     </div>
 
-    <!-- Ô 2: Dán Bảng Nhân Viên -->
+    <!-- Ô 2: Dán Bảng Thi Đua Nhân Viên -->
     <div class="card-box rounded-2xl p-3 space-y-1.5 border-l-4 border-purple-500">
       <label class="text-xs font-bold text-purple-800 flex items-center space-x-1">
         <span>🏆</span>
-        <span>2. Bảng Thi Đua Chi Tiết Nhân Viên:</span>
+        <span>2. Dán Bảng Thi Đua Nhân Viên:</span>
       </label>
       <textarea id="raw-data-nv" rows="4" placeholder="Dán bảng thi đua chi tiết nhân viên vào đây..." 
                 class="w-full p-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-purple-500"></textarea>
     </div>
 
-    <!-- NÚT PHÂN TÍCH CHUẨN -->
+    <!-- NÚT PHÂN TÍCH -->
     <button onclick="processNvData()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-3.5 rounded-xl text-xs shadow-md active:scale-98 transition flex items-center justify-center space-x-2">
       <span>⚡</span>
       <span>PHÂN TÍCH ĐẠT / CHƯA ĐẠT CHUẨN XÁC</span>
@@ -62,13 +62,13 @@
     <!-- KẾT QUẢ -->
     <div id="result-section" class="space-y-3 pt-2">
       <div class="text-xs font-bold text-slate-500 flex justify-between items-center px-1">
-        <span>KẾT QUẢ ĐÁNH GIÁ CHẠY SỐ</span>
+        <span>KẾT QUẢ PHÂN TÍCH SỐ CHẠY</span>
         <span id="total-nv-count" class="text-blue-600 font-black">0 Nhân sự</span>
       </div>
 
       <div id="res-ns-list" class="space-y-2.5 text-[11px]">
         <div class="card-box rounded-xl p-4 text-center text-slate-400 italic">
-          Dán dữ liệu và bấm phân tích để xem kết quả...
+          Dán dữ liệu vào 2 ô trên và bấm phân tích...
         </div>
       </div>
     </div>
@@ -76,7 +76,7 @@
   </main>
 
   <footer class="text-center py-3 text-[10px] text-slate-400">
-    © 2026 QLST MWG Pro • Siêu thị 1453 Phú Quới
+    © 2026 MWG • Siêu thị 1453 Phú Quới
   </footer>
 
   <script>
@@ -98,25 +98,25 @@
       const rawSt = document.getElementById('raw-data-st').value;
       const rawNv = document.getElementById('raw-data-nv').value;
 
-      if (!rawNv.trim()) {
-        alert("Vui lòng dán dữ liệu thi đua nhân viên vào ô số 2!");
+      if (!rawSt.trim() || !rawNv.trim()) {
+        alert("Vui lòng dán dữ liệu vào CẢ 2 Ô (Ô 1: Target Siêu thị, Ô 2: Thi đua NV)!");
         return;
       }
 
-      // 1. Quét Target Siêu Thị từ Ô 1
+      // 1. Quét Target Siêu Thị Phú Quới chính xác từ Ô 1
       let storeTargetDict = {};
       let stLines = rawSt.split('\n').map(l => l.trim()).filter(l => l.length > 0);
       let curStMon = "";
 
       for (let i = 0; i < stLines.length; i++) {
         let l = stLines[i];
-        if (l.includes('T10 -') || l.includes('T09 -') || l.includes('TRẢ LỰC')) {
+        if (l.startsWith('T09 -') || l.startsWith('T10 -') || l.startsWith('TRẢ LỰC')) {
           curStMon = l;
-        } else if (curStMon && (l.includes('197C/17') || l.includes('Phú Quới') || l.includes('TGD_VLO_LHO'))) {
+        } else if (curStMon && (l.includes('Phú Quới') || l.includes('TGD_VLO_LHO'))) {
           let parts = l.split(/\s+/);
-          let nums = parts.map(p => parseNum(p)).filter(n => n > 0);
-          if (nums.length >= 2) {
-            storeTargetDict[curStMon.toLowerCase().trim()] = nums[1]; // Lấy Target Siêu thị
+          let numbers = parts.map(p => parseNum(p)).filter(n => n > 0);
+          if (numbers.length >= 2) {
+            storeTargetDict[curStMon.toLowerCase().trim()] = numbers[1];
             curStMon = "";
           }
         }
@@ -130,7 +130,7 @@
       for (let i = 0; i < lines.length; i++) {
         let l = lines[i];
 
-        if (l.startsWith('T09 -') || l.startsWith('T10 -') || l.startsWith('TRẢ LỰC') || l.includes('Dòng iPhone') || l.includes('NẠP - RÚT') || l.includes('Bảo hiểm') || l.includes('SIM') || l.includes('VAS') || l.includes('VƯƠNG QUỐC') || l.includes('ĐIỆN THOẠI') || l.includes('TRẢ CHẬM') || l.includes('MÁY ẢNH') || l.includes('TAI NGHE') || l.includes('CÁP - SẠC') || l.includes('ĐỒNG HỒ') || l.includes('LỌC NƯỚC') || l.includes('xách tay') || l.includes('PHỤ KIỆN') || l.includes('SẠC DỰ PHÒNG')) {
+        if (l.startsWith('T09 -') || l.startsWith('T10 -') || l.startsWith('TRẢ LỰC')) {
           currentProgram = l;
         }
 
@@ -157,13 +157,13 @@
       let staffCount = Math.max(1, staffKeys.length);
 
       if (staffKeys.length === 0) {
-        alert("Không tìm thấy danh sách nhân viên. Hãy kiểm tra lại ô dán số 2 nhé!");
+        alert("Không tìm thấy dữ liệu nhân viên trong ô 2. Anh Quí kiểm tra lại nhé!");
         return;
       }
 
       document.getElementById('total-nv-count').innerText = `${staffKeys.length} Nhân sự`;
 
-      // 3. TÍNH CHUẨN ĐẠT / CHƯA ĐẠT: Target Cá Nhân = Target Siêu Thị ÷ Số NV
+      // 3. TÍNH TARGET CÁ NHÂN CHUẨN: Target Cá Nhân = Target Siêu Thị Phú Quới ÷ Số NV
       let nsHtml = '';
       staffKeys.forEach((key, index) => {
         let st = staffData[key];
@@ -175,8 +175,7 @@
         for (let progName in st.nvProgs) {
           let actualVal = st.nvProgs[progName];
 
-          // Tra Target Siêu thị của môn
-          let stTargetVal = 50; // Mặc định nếu không thấy bảng ST
+          let stTargetVal = 100;
           let cleanProgLower = progName.toLowerCase().trim();
 
           for (let kInDict in storeTargetDict) {
@@ -186,7 +185,6 @@
             }
           }
 
-          // Target Cá Nhân = Target Siêu thị chia cho số NV Sàn
           let targetNV = Number((stTargetVal / staffCount).toFixed(2));
           if (targetNV <= 0) targetNV = 1;
 
@@ -206,7 +204,7 @@
             <button onclick="toggleBranch('${subId}', 'staff-icon-${index}')" class="w-full p-3.5 text-left flex justify-between items-center bg-slate-50/80 hover:bg-slate-100 transition">
               <div>
                 <div class="font-extrabold text-slate-900 text-xs">${key}</div>
-                <div class="text-[10px] text-slate-500 font-medium mt-0.5">Môn tham gia: <b>${pCount + fCount} môn</b></div>
+                <div class="text-[10px] text-slate-500 font-medium mt-0.5">Tổng môn ghi nhận: <b>${pCount + fCount} môn</b></div>
               </div>
               <div class="flex items-center space-x-1.5">
                 <span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded text-[10px] font-extrabold">Đạt: ${pCount}</span>
@@ -222,7 +220,7 @@
                 </div>
                 ${pCount > 0 ? passedList.map(p => `
                   <div class="flex justify-between items-center bg-emerald-50/70 p-2 rounded-lg mb-1 border border-emerald-100">
-                    <span class="font-semibold text-slate-800 truncate max-w-[180px]">${p.progName}</span>
+                    <span class="font-semibold text-slate-800 truncate max-w-[170px]">${p.progName}</span>
                     <span class="font-extrabold text-emerald-700 bg-white px-1.5 py-0.5 rounded border border-emerald-200">${p.actual} / ${p.targetNV} (${p.percent}%)</span>
                   </div>
                 `).join('') : '<div class="text-slate-400 italic text-[10px]">Chưa có môn đạt Target</div>'}
@@ -234,7 +232,7 @@
                 </div>
                 ${fCount > 0 ? failedList.map(f => `
                   <div class="flex justify-between items-center bg-rose-50/70 p-2 rounded-lg mb-1 border border-rose-100">
-                    <span class="font-semibold text-slate-800 truncate max-w-[180px]">${f.progName}</span>
+                    <span class="font-semibold text-slate-800 truncate max-w-[170px]">${f.progName}</span>
                     <span class="font-extrabold text-rose-700 bg-white px-1.5 py-0.5 rounded border border-rose-200">${f.actual} / ${f.targetNV} (${f.percent}%)</span>
                   </div>
                 `).join('') : '<div class="text-slate-400 italic text-[10px]">Không có môn chưa đạt</div>'}
@@ -245,7 +243,7 @@
       });
 
       document.getElementById('res-ns-list').innerHTML = nsHtml;
-      alert("✨ Đã phân tích ĐẠT / CHƯA ĐẠT chuẩn xác!");
+      alert("✨ Phân tích xong! Đã xóa chữ QLST và TC.");
     }
   </script>
 
