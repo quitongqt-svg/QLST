@@ -3,175 +3,72 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>QLST MWG Pro - Phân Tích Số Liệu Siêu Thị</title>
+  <title>QLST 1453 - Báo Cáo Chạy Số Nhân Viên</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f1f5f9; -webkit-tap-highlight-color: transparent; }
-    .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
-    .branch-content { max-height: 0; overflow: hidden; transition: max-height 0.3s cubic-bezier(0, 1, 0, 1); }
-    .branch-content.active { max-height: 3000px; transition: max-height 0.3s ease-in-out; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8fafc; -webkit-tap-highlight-color: transparent; }
+    .card-box { background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+    .branch-content { display: none; }
+    .branch-content.active { display: block; }
     .rotate-icon { transition: transform 0.2s ease; }
     .rotate-icon.active { transform: rotate(180deg); }
   </style>
 </head>
 <body class="text-slate-800 min-h-screen flex flex-col justify-between p-3.5 max-w-md mx-auto">
 
-  <!-- HEADER -->
-  <header class="glass-card rounded-2xl p-4 mb-3.5 shadow-sm border-l-4 border-blue-600">
+  <!-- HEADER GỌN GÀNG -->
+  <header class="card-box rounded-2xl p-4 mb-3.5 border-l-4 border-blue-600">
     <div class="flex justify-between items-center">
       <div>
-        <div class="flex items-center space-x-1.5">
-          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span class="text-[10px] bg-blue-50 text-blue-700 font-extrabold px-2 py-0.5 rounded-full border border-blue-200">1453 - Phú Quới</span>
-        </div>
-        <h1 class="text-base font-black text-slate-900 mt-1 tracking-tight">QLST EXECUTIVE DASHBOARD</h1>
+        <span class="text-[10px] bg-blue-50 text-blue-700 font-extrabold px-2 py-0.5 rounded-full border border-blue-200">1453 - Phú Quới</span>
+        <h1 class="text-sm font-black text-slate-900 mt-1">THEO DÕI SỐ CHẠY NHÂN VIÊN</h1>
       </div>
       <div class="text-right">
-        <div class="text-xs font-black text-slate-800">Tống Hoàng Quí</div>
-        <div class="text-[10px] text-blue-600 font-bold bg-slate-100 px-1.5 py-0.5 rounded mt-0.5 inline-block">MSNV: 13853</div>
+        <div class="text-xs font-bold text-slate-800">Quí Tống Hoàng</div>
+        <div class="text-[10px] text-blue-600 font-semibold">13853</div>
       </div>
     </div>
   </header>
 
-  <!-- FORM NHẬP LIỆU -->
+  <!-- 1 Ô DÁN DUY NHẤT -->
   <main class="space-y-3.5 flex-grow">
 
-    <!-- 1. GIỜ CÔNG -->
-    <div class="glass-card rounded-2xl p-3.5 space-y-2 border-l-4 border-indigo-500">
-      <div class="flex justify-between items-center">
-        <label class="text-xs font-bold text-indigo-800 flex items-center space-x-1.5">
-          <span class="p-1 bg-indigo-50 rounded-lg">⏱️</span>
-          <span>1. Giờ Công Nhân Viên</span>
-        </label>
-        <span class="text-[9px] bg-indigo-50 text-indigo-600 font-bold px-2 py-0.5 rounded-full">Bắt buộc</span>
-      </div>
-      <textarea id="raw-gio-cong" rows="2" placeholder="Dán bảng giờ công vào đây..." 
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
-    </div>
-
-    <!-- 2. DOANH THU BI -->
-    <div class="glass-card rounded-2xl p-3.5 space-y-2 border-l-4 border-emerald-500">
-      <div class="flex justify-between items-center">
-        <label class="text-xs font-bold text-emerald-800 flex items-center space-x-1.5">
-          <span class="p-1 bg-emerald-50 rounded-lg">📊</span>
-          <span>2. Doanh Thu & Sức Khỏe Siêu Thị</span>
-        </label>
-        <span class="text-[9px] bg-emerald-50 text-emerald-600 font-bold px-2 py-0.5 rounded-full">Bắt buộc</span>
-      </div>
-      <textarea id="raw-doanh-thu" rows="2" placeholder="Dán dữ liệu Doanh thu & Sức khỏe..." 
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500"></textarea>
-    </div>
-
-    <!-- 3. THI ĐUA NHÂN VIÊN -->
-    <div class="glass-card rounded-2xl p-3.5 space-y-2 border-l-4 border-purple-500">
+    <div class="card-box rounded-2xl p-3.5 space-y-2 border-l-4 border-purple-500">
       <div class="flex justify-between items-center">
         <label class="text-xs font-bold text-purple-800 flex items-center space-x-1.5">
-          <span class="p-1 bg-purple-50 rounded-lg">🏆</span>
-          <span>3. Bảng Thi Đua Chi Tiết Nhân Viên</span>
+          <span>📋</span>
+          <span>Dán Bảng Thi Đua Nhân Viên Từ BI:</span>
         </label>
-        <span class="text-[9px] bg-purple-50 text-purple-600 font-bold px-2 py-0.5 rounded-full">Bắt buộc</span>
+        <span class="text-[9px] bg-purple-50 text-purple-600 font-bold px-2 py-0.5 rounded-full">Chép bảng & dán</span>
       </div>
-      <textarea id="raw-thi-dua-nv" rows="3" placeholder="Dán kết quả thi đua chi tiết nhân viên..." 
-                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-purple-500"></textarea>
+      <textarea id="raw-data-nv" rows="6" placeholder="Copy toàn bộ bảng thi đua nhân viên trên BI dán thẳng vào đây..." 
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-purple-500 focus:bg-white"></textarea>
     </div>
 
-    <!-- 4. THI ĐUA ST LŨY KẾ -->
-    <div class="glass-card rounded-2xl p-3.5 space-y-2 border-l-4 border-amber-500">
-      <div class="flex justify-between items-center">
-        <label class="text-xs font-bold text-amber-800 flex items-center space-x-1.5">
-          <span class="p-1 bg-amber-50 rounded-lg">📦</span>
-          <span>4. Bảng Target & Lũy Kế Môn Siêu Thị</span>
-        </label>
-        <span class="text-[9px] bg-amber-50 text-amber-600 font-bold px-2 py-0.5 rounded-full">Bắt buộc</span>
-      </div>
-      <textarea id="raw-thi-dua-st" rows="3" placeholder="Dán bảng target & lũy kế các môn siêu thị..." 
-                class="w-full p-2.5 bg-amber-50/30 border border-amber-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500"></textarea>
-    </div>
-
-    <!-- NÚT XỬ LÝ -->
-    <button onclick="processProDashboard()" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-extrabold py-4 rounded-xl text-xs shadow-lg shadow-blue-500/25 transition active:scale-98 flex items-center justify-center space-x-2">
-      <span class="text-base">🚀</span>
-      <span>PHÂN TÍCH & CHIA TARGET CHUẨN TỪNG MÔN</span>
+    <!-- NÚT PHÂN TÍCH -->
+    <button onclick="processNvData()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-3.5 rounded-xl text-xs shadow-md active:scale-98 transition flex items-center justify-center space-x-2">
+      <span>⚡</span>
+      <span>XEM SỐ CHẠY CHO NHÂN VIÊN</span>
     </button>
 
-    <!-- KẾT QUẢ HIỂN THỊ -->
+    <!-- KẾT QUẢ KHI SỔ NHÁNH -->
     <div id="result-section" class="space-y-3 pt-2">
-      
-      <!-- PHẦN 1: SỨC KHỎE SIÊU THỊ -->
-      <div class="glass-card rounded-2xl overflow-hidden border-l-4 border-emerald-500">
-        <button onclick="toggleBranch('branch-1', 'icon-1')" class="w-full p-3.5 text-left flex justify-between items-center focus:outline-none bg-white">
-          <div>
-            <span class="text-[9px] text-emerald-600 font-extrabold uppercase tracking-wider bg-emerald-50 px-2 py-0.5 rounded">Chỉ số cốt lõi</span>
-            <div class="text-xs font-black text-slate-900 mt-1">🏦 Sức Khỏe, Quy Đổi & Trả Chậm Siêu Thị</div>
-          </div>
-          <span id="icon-1" class="rotate-icon text-slate-400 text-xs">▼</span>
-        </button>
-        <div id="branch-1" class="branch-content bg-slate-50/50 px-4 py-3 border-t border-slate-100 space-y-2.5 text-xs">
-          <div class="flex justify-between items-center text-slate-700">
-            <span>Doanh Thu Quy Đổi (Lũy Kế / Target):</span>
-            <span id="res-qd-val" class="font-extrabold text-blue-600">0 / 0</span>
-          </div>
-          <div class="flex justify-between items-center text-slate-700">
-            <span>Tỷ Lệ Hoàn Thành Quy Đổi:</span>
-            <span id="res-qd-ht" class="font-extrabold text-emerald-600">0%</span>
-          </div>
-          <div class="flex justify-between items-center text-slate-700">
-            <span>Hiệu Quả Quy Đổi:</span>
-            <span id="res-hieuqua-qd" class="font-extrabold text-slate-900">0%</span>
-          </div>
-          <div class="flex justify-between items-center text-slate-700">
-            <span>Tỉ Trọng Trả Chậm:</span>
-            <span id="res-tracham" class="font-extrabold text-amber-600">0%</span>
-          </div>
-          <div class="flex justify-between items-center text-slate-700">
-            <span>Tỉ Lệ Phục Vụ Thành Công (PVTC):</span>
-            <span id="res-pvtc" class="font-extrabold text-purple-600">0%</span>
-          </div>
-        </div>
+      <div class="text-xs font-bold text-slate-500 flex justify-between items-center px-1">
+        <span>DANH SÁCH NHÂN SỰ SÀN</span>
+        <span id="total-nv-count" class="text-blue-600 font-black">0 Nhân sự</span>
       </div>
 
-      <!-- PHẦN 2: THI ĐUA CÁC MÔN SIÊU THỊ -->
-      <div class="glass-card rounded-2xl overflow-hidden border-l-4 border-amber-500">
-        <button onclick="toggleBranch('branch-2', 'icon-2')" class="w-full p-3.5 text-left flex justify-between items-center focus:outline-none bg-white">
-          <div>
-            <span class="text-[9px] text-amber-600 font-extrabold uppercase tracking-wider bg-amber-50 px-2 py-0.5 rounded">Toàn siêu thị</span>
-            <div class="text-xs font-black text-slate-900 mt-1">🏆 Thi Đua Các Môn Siêu Thị</div>
-          </div>
-          <span id="icon-2" class="rotate-icon text-slate-400 text-xs">▼</span>
-        </button>
-        <div id="branch-2" class="branch-content bg-slate-50/50 px-4 py-3 border-t border-slate-100 space-y-2 text-xs">
-          <div class="flex justify-between text-slate-700 mb-1">
-            <span>Tổng số ngành hàng Đạt / Chưa đạt:</span>
-            <span id="res-td-count" class="font-extrabold text-slate-900">0 / 0</span>
-          </div>
-          <div id="list-td-dynamic" class="border-t border-slate-200 pt-2 space-y-1.5 max-h-56 overflow-y-auto text-[11px]">
-          </div>
+      <div id="res-ns-list" class="space-y-2.5 text-[11px]">
+        <div class="card-box rounded-xl p-4 text-center text-slate-400 italic">
+          Dán dữ liệu thi đua nhân viên vào ô trên và bấm xem số...
         </div>
       </div>
-
-      <!-- PHẦN 3: THI ĐUA NHÂN VIÊN (TARGET CHUẨN TỪNG MÔN) -->
-      <div class="glass-card rounded-2xl overflow-hidden border-l-4 border-purple-500">
-        <button onclick="toggleBranch('branch-3', 'icon-3')" class="w-full p-3.5 text-left flex justify-between items-center focus:outline-none bg-white">
-          <div>
-            <span class="text-[9px] text-purple-600 font-extrabold uppercase tracking-wider bg-purple-50 px-2 py-0.5 rounded">Chi tiết cá nhân</span>
-            <div class="text-xs font-black text-slate-900 mt-1">👥 Thi Đua Nhân Viên (Target Cá Nhân Độc Lập)</div>
-          </div>
-          <span id="icon-3" class="rotate-icon text-slate-400 text-xs">▼</span>
-        </button>
-        <div id="branch-3" class="branch-content bg-slate-50/50 px-4 py-3 border-t border-slate-100 space-y-2 text-xs">
-          <div class="text-slate-500 pb-1 font-semibold text-[10px]">📌 Target cá nhân = Target môn Siêu thị chia cho số NV sàn:</div>
-          <div id="res-ns-list" class="space-y-2 text-[11px]">
-            <div class="text-slate-400 italic">Dán dữ liệu và bấm phân tích...</div>
-          </div>
-        </div>
-      </div>
-
     </div>
 
   </main>
 
-  <footer class="text-center py-4 text-[10px] text-slate-400 font-medium">
+  <footer class="text-center py-3 text-[10px] text-slate-400">
     © 2026 QLST MWG Pro • Siêu thị 1453 Phú Quới
   </footer>
 
@@ -183,166 +80,87 @@
       if (icon) icon.classList.toggle('active');
     }
 
-    function processProDashboard() {
-      const rawGc = document.getElementById('raw-gio-cong').value;
-      const rawDt = document.getElementById('raw-doanh-thu').value;
-      const rawNv = document.getElementById('raw-thi-dua-nv').value;
-      const rawSt = document.getElementById('raw-thi-dua-st').value;
+    function parseNum(str) {
+      if (!str) return 0;
+      let clean = str.replace(/\./g, '').replace(',', '.');
+      let val = parseFloat(clean);
+      return isNaN(val) ? 0 : val;
+    }
 
-      if (!rawDt.trim() && !rawSt.trim() && !rawNv.trim()) {
-        alert("Vui lòng dán dữ liệu vào các ô nhập liệu!");
+    function processNvData() {
+      const rawNv = document.getElementById('raw-data-nv').value;
+
+      if (!rawNv.trim()) {
+        alert("Vui lòng dán dữ liệu thi đua nhân viên từ BI vào ô!");
         return;
       }
 
-      // 1. Quét Sức khỏe siêu thị
-      let combined = rawDt + "\n" + rawSt;
-      let lines = combined.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+      let lines = rawNv.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+      let staffData = {};
+      let currentProgram = "Môn chung";
 
-      let targetQd = "5,035", luyKeQd = "2,348", hoanThanhQd = "111.2%", hieuQuaQd = "54.5%", tracham = "53.6%", pvtc = "20.7%";
-      lines.forEach(l => {
-        if (l.includes("Target :")) targetQd = l.split("Target :")[1].trim();
-        if (l.includes("Lũy Kế :")) luyKeQd = l.split("Lũy Kế :")[1].trim();
-        if (l.includes("Hoàn Thành :")) hoanThanhQd = l.split("Hoàn Thành :")[1].trim();
-        if (l.includes("Hiệu Quả QĐ :")) hieuQuaQd = l.split("Hiệu Quả QĐ :")[1].trim();
-        if (l.includes("Tỉ Trọng :")) tracham = l.split("Tỉ Trọng :")[1].trim();
-        if (l.includes("Tỉ Lệ PVTC :")) pvtc = l.split("Tỉ Lệ PVTC :")[1].trim();
-      });
-
-      document.getElementById('res-qd-val').innerText = `${luyKeQd} / ${targetQd}`;
-      document.getElementById('res-qd-ht').innerText = hoanThanhQd;
-      document.getElementById('res-hieuqua-qd').innerText = hieuQuaQd;
-      document.getElementById('res-tracham').innerText = tracham;
-      document.getElementById('res-pvtc').innerText = pvtc;
-
-      // 2. BẠN TÍNH CHUẨN: Bóc tách Target Tổng Siêu Thị cho từng môn cụ thể
-      let storePrograms = [];
-      let storeTargetDictionary = {}; // Lưu Target Tổng Siêu Thị chính xác của từng tên môn
-
-      let currentProgTitle = "";
       for (let i = 0; i < lines.length; i++) {
-        let line = lines[i];
+        let l = lines[i];
 
-        if (line.includes('T10 -') || line.includes('T09 -') || line.includes('Bảo Hiểm') || line.includes('SIM') || line.includes('VAS') || line.includes('TRẢ CHẬM') || line.includes('ĐỒNG HỒ') || line.includes('LAPTOP') || line.includes('TAI NGHE') || line.includes('CÁP') || line.includes('MÁY ẢNH')) {
-          currentProgTitle = line;
-        } else if (currentProgTitle && (line.includes('1453') || line.includes('Phú Quới') || line.endsWith('DT') || line.endsWith('SL'))) {
-          let numbers = line.split(/\s+/).map(p => parseFloat(p.replace(/\./g, '').replace(',', '.'))).filter(n => !isNaN(n));
-          if (numbers.length >= 2) {
-            let actualST = numbers[0];
-            let targetST = numbers[1];
-            let percentST = targetST > 0 ? (actualST / targetST) * 100 : 0;
+        // 1. Nhận diện Chương trình môn thi đua
+        if (l.startsWith('T09 -') || l.startsWith('T10 -') || l.startsWith('TRẢ LỰC') || l.includes('Dòng iPhone') || l.includes('NẠP - RÚT') || l.includes('Bảo hiểm') || l.includes('SIM') || l.includes('VAS') || l.includes('VƯƠNG QUỐC') || l.includes('ĐIỆN THOẠI') || l.includes('TRẢ CHẬM') || l.includes('MÁY ẢNH') || l.includes('TAI NGHE') || l.includes('CÁP - SẠC') || l.includes('ĐỒNG HỒ') || l.includes('LỌC NƯỚC') || l.includes('xách tay') || l.includes('PHỤ KIỆN') || l.includes('SẠC DỰ PHÒNG')) {
+          currentProgram = l;
+        }
 
-            storePrograms.push({ name: currentProgTitle, target: targetST, actual: actualST, percent: percentST, isPass: percentST >= 100 });
-            storeTargetDictionary[currentProgTitle.toLowerCase().trim()] = targetST;
-            currentProgTitle = "";
+        // 2. Nhận diện Mã NV - Tên NV (Ví dụ: 150203 - Lê Thị Kim Liên)
+        let nvMatch = l.match(/(\d{5,6})\s*-\s*([^\d\n\r]+)/);
+        if (nvMatch && !l.includes('18001060') && !l.includes('Trực tuyến')) {
+          let code = nvMatch[1].trim();
+          let name = nvMatch[2].trim();
+          let key = `${code} - ${name}`;
+
+          if (!staffData[key]) {
+            staffData[key] = { passed: [], failed: [] };
+          }
+
+          // Dòng liền sau chứa số liệu thực tế đạt được của NV
+          if (i + 1 < lines.length) {
+            let nextLine = lines[i+1];
+            let parts = nextLine.split(/\s+/);
+            let val = parseNum(parts[0]);
+
+            if (parts[0] && parts[0].match(/^\d+[\d,.]*$/)) {
+              // Quy chuẩn đánh giá ĐẠT / CHƯA ĐẠT theo sản lượng/doanh thu thực tế
+              let isPass = val > 0 && (parts.includes('ĐỨNG ĐẦU') || val >= 3);
+
+              let item = { progName: currentProgram, actual: val };
+              let list = isPass ? staffData[key].passed : staffData[key].failed;
+              
+              if (!list.some(x => x.progName === currentProgram)) {
+                list.push(item);
+              }
+            }
           }
         }
       }
 
-      // Đổ danh sách môn siêu thị
-      let passCount = storePrograms.filter(p => p.isPass).length;
-      let failCount = storePrograms.length - passCount;
-      document.getElementById('res-td-count').innerText = `${passCount} Đạt / ${failCount} Chưa đạt`;
-
-      let storeHtml = '';
-      storePrograms.forEach(p => {
-        storeHtml += `
-          <div class="flex justify-between items-center bg-white p-2 rounded-lg border border-slate-100 shadow-2xs">
-            <span class="font-bold text-slate-800 truncate max-w-[210px]">${p.name}</span>
-            <span class="${p.isPass ? 'text-emerald-700 bg-emerald-50 border border-emerald-200' : 'text-rose-700 bg-rose-50 border border-rose-200'} px-2 py-0.5 rounded text-[10px] font-extrabold">
-              ${p.isPass ? `✓ ${p.percent.toFixed(0)}%` : `✗ ${p.percent.toFixed(0)}%`}
-            </span>
-          </div>
-        `;
-      });
-      document.getElementById('list-td-dynamic').innerHTML = storeHtml || '<div class="text-slate-400 italic">Dán dữ liệu ngành hàng để hiển thị...</div>';
-
-      // 3. Đọc dữ liệu Giờ công
-      let gcMap = {};
-      let gcLines = rawGc.split('\n').map(l => l.trim()).filter(l => l.length > 0);
-      gcLines.forEach(l => {
-        let match = l.match(/(\d{5,6})\s*-\s*([^\d\n\r]+)/);
-        if (match) {
-          let code = match[1].trim();
-          let nums = l.split(/\s+/).map(p => parseFloat(p.replace(/\./g, '').replace(',', '.'))).filter(n => !isNaN(n) && n > 20);
-          gcMap[code] = nums.length > 0 ? nums[0] : 176;
-        }
-      });
-
-      // 4. Bóc tách từng Nhân viên từ ô Thi đua NV
-      let staffLines = rawNv.split('\n').map(l => l.trim()).filter(l => l.length > 0);
-      let staffData = {};
-      let currentStaffKey = "";
-      let activeProgForNV = "";
-
-      staffLines.forEach(l => {
-        if (l.includes('T10 -') || l.includes('T09 -') || l.includes('ĐỒNG HỒ') || l.includes('TAI NGHE') || l.includes('NẠP') || l.includes('BẢO HIỂM') || l.includes('SIM') || l.includes('VAS') || l.includes('TRẢ CHẬM') || l.includes('LAPTOP')) {
-          activeProgForNV = l;
-        }
-
-        let nvMatch = l.match(/(\d{5,6})\s*-\s*([^\d\n\r]+)/);
-        if (nvMatch && !l.includes('Trực tuyến') && !l.includes('18001060')) {
-          let code = nvMatch[1].trim();
-          let name = nvMatch[2].trim();
-          currentStaffKey = `${code} - ${name}`;
-          if (!staffData[currentStaffKey]) {
-            staffData[currentStaffKey] = { code, name, nvProgs: {} };
-          }
-        } else if (currentStaffKey && activeProgForNV && !l.includes('TỔNG') && !l.includes('18001060')) {
-          let nums = l.split(/\s+/).map(p => parseFloat(p.replace(/\./g, '').replace(',', '.'))).filter(n => !isNaN(n));
-          if (nums.length > 0) {
-            staffData[currentStaffKey].nvProgs[activeProgForNV] = nums[0];
-          }
-        }
-      });
-
       let staffKeys = Object.keys(staffData);
-      let staffCount = Math.max(1, staffKeys.length); // Đếm chính xác số nhân viên thực tế trong siêu thị
+      if (staffKeys.length === 0) {
+        alert("Không tìm thấy cấu trúc Mã NV - Tên NV. Anh Quí kiểm tra lại dữ liệu vừa dán nhé!");
+        return;
+      }
 
-      // 5. BƯỚC TÍNH TOÁN ĐÚNG TUYỆT ĐỐI: Target Cá Nhân = Target Siêu Thị Của Môn Đó ÷ Số NV
+      document.getElementById('total-nv-count').innerText = `${staffKeys.length} Nhân sự`;
+
+      // 3. Đổ dữ liệu ra danh sách nút-nhánh cho từng nhân viên
       let nsHtml = '';
       staffKeys.forEach((key, index) => {
         let st = staffData[key];
-        let hours = gcMap[st.code] ? `${gcMap[st.code]}h` : "176h";
+        let pCount = st.passed.length;
+        let fCount = st.failed.length;
         let subId = `staff-sub-${index}`;
 
-        let passedList = [];
-        let failedList = [];
-
-        for (let progName in st.nvProgs) {
-          let actualNV = st.nvProgs[progName];
-          
-          // Tìm chính xác Target Tổng Siêu Thị của môn này trong Từ điển Target
-          let totalStoreTargetForThisProg = 100; // Giá trị fallback
-          let cleanProgNameLower = progName.toLowerCase().trim();
-
-          for (let sProgKey in storeTargetDictionary) {
-            if (cleanProgNameLower.includes(sProgKey.substring(0, 8)) || sProgKey.includes(cleanProgNameLower.substring(0, 8))) {
-              totalStoreTargetForThisProg = storeTargetDictionary[sProgKey];
-              break;
-            }
-          }
-
-          // Target Cá Nhân Mới Chuẩn = Target Siêu Thị Môn Đó ÷ Số NV Sàn
-          let targetNV = Number((totalStoreTargetForThisProg / staffCount).toFixed(2));
-          if (targetNV <= 0) targetNV = 1;
-
-          let percentNV = Math.round((actualNV / targetNV) * 100);
-          let isPass = actualNV >= targetNV;
-
-          let item = { progName, actual: actualNV, targetNV, percent: percentNV };
-          if (isPass) passedList.push(item);
-          else failedList.push(item);
-        }
-
-        let pCount = passedList.length;
-        let fCount = failedList.length;
-
         nsHtml += `
-          <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
-            <button onclick="toggleBranch('${subId}', 'staff-icon-${index}')" class="w-full p-3 text-left flex justify-between items-center bg-slate-50/80 hover:bg-slate-100/80 transition">
+          <div class="card-box rounded-2xl overflow-hidden mb-2">
+            <button onclick="toggleBranch('${subId}', 'staff-icon-${index}')" class="w-full p-3.5 text-left flex justify-between items-center bg-slate-50/80 hover:bg-slate-100 transition">
               <div>
-                <span class="font-extrabold text-slate-800 text-xs">${key}</span>
-                <div class="text-[10px] text-slate-500 font-medium">Giờ công: <b class="text-indigo-600">${hours}</b></div>
+                <div class="font-extrabold text-slate-900 text-xs">${key}</div>
+                <div class="text-[10px] text-slate-500 font-medium mt-0.5">Tổng số môn ghi nhận: <b class="text-blue-600">${pCount + fCount} môn</b></div>
               </div>
               <div class="flex items-center space-x-1.5">
                 <span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded text-[10px] font-extrabold">Đạt: ${pCount}</span>
@@ -350,28 +168,30 @@
                 <span id="staff-icon-${index}" class="rotate-icon text-slate-400 text-[10px]">▼</span>
               </div>
             </button>
-            <div id="${subId}" class="branch-content bg-white px-3 py-2.5 space-y-2 border-t border-slate-100 text-[11px]">
+
+            <div id="${subId}" class="branch-content bg-white px-3.5 py-2.5 space-y-2 border-t border-slate-100 text-[11px]">
               <div>
-                <div class="font-bold text-emerald-700 mb-1 flex items-center space-x-1">
-                  <span>✅</span><span>Môn ĐẠT (${pCount} môn):</span>
+                <div class="font-bold text-emerald-700 mb-1.5 flex items-center space-x-1">
+                  <span>✅</span><span>CÁC MÔN ĐẠT / CÓ SẢN LƯỢNG (${pCount} môn):</span>
                 </div>
-                ${pCount > 0 ? passedList.map(p => `
-                  <div class="flex justify-between bg-emerald-50/60 p-1.5 rounded-lg mb-1 border border-emerald-100">
-                    <span class="font-medium text-slate-800 truncate max-w-[180px]">${p.progName}</span>
-                    <span class="font-bold text-emerald-600">${p.actual} / ${p.targetNV} (${p.percent}%)</span>
+                ${pCount > 0 ? st.passed.map(p => `
+                  <div class="flex justify-between items-center bg-emerald-50/70 p-2 rounded-lg mb-1 border border-emerald-100">
+                    <span class="font-semibold text-slate-800 truncate max-w-[200px]">${p.progName}</span>
+                    <span class="font-extrabold text-emerald-700 bg-white px-1.5 py-0.5 rounded border border-emerald-200">${p.actual}</span>
                   </div>
-                `).join('') : '<div class="text-slate-400 italic text-[10px]">Chưa có môn đạt</div>'}
+                `).join('') : '<div class="text-slate-400 italic text-[10px]">Chưa ghi nhận môn đạt</div>'}
               </div>
-              <div>
-                <div class="font-bold text-rose-700 mb-1 flex items-center space-x-1">
-                  <span>❌</span><span>Môn CHƯA ĐẠT (${fCount} môn):</span>
+
+              <div class="pt-1">
+                <div class="font-bold text-rose-700 mb-1.5 flex items-center space-x-1">
+                  <span>❌</span><span>CÁC MÔN CẦN THÚC CHẠY SỐ (${fCount} môn):</span>
                 </div>
-                ${fCount > 0 ? failedList.map(f => `
-                  <div class="flex justify-between bg-rose-50/60 p-1.5 rounded-lg mb-1 border border-rose-100">
-                    <span class="font-medium text-slate-800 truncate max-w-[180px]">${p.progName}</span>
-                    <span class="font-bold text-rose-600">${f.actual} / ${f.targetNV} (${f.percent}%)</span>
+                ${fCount > 0 ? st.failed.map(f => `
+                  <div class="flex justify-between items-center bg-rose-50/70 p-2 rounded-lg mb-1 border border-rose-100">
+                    <span class="font-semibold text-slate-800 truncate max-w-[200px]">${f.progName}</span>
+                    <span class="font-extrabold text-rose-700 bg-white px-1.5 py-0.5 rounded border border-rose-200">${f.actual}</span>
                   </div>
-                `).join('') : '<div class="text-slate-400 italic text-[10px]">Không có môn chưa đạt</div>'}
+                `).join('') : '<div class="text-slate-400 italic text-[10px]">Không có môn yếu</div>'}
               </div>
             </div>
           </div>
@@ -379,14 +199,7 @@
       });
 
       document.getElementById('res-ns-list').innerHTML = nsHtml;
-
-      ['branch-1', 'branch-2', 'branch-3'].forEach((id, idx) => {
-        document.getElementById(id).classList.add('active');
-        let ic = document.getElementById(`icon-${idx+1}`);
-        if (ic) ic.classList.add('active');
-      });
-
-      alert("✨ Đã tính toán chuẩn xác Target cá nhân theo đúng từng môn!");
+      alert("✨ Đã lọc xong số chạy cho từng nhân viên!");
     }
   </script>
 
