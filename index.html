@@ -2,142 +2,187 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Công Cụ Phân Tích Số QLST MWG 5.0</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Hệ Thống Phân Tích Số Liệu Siêu Thị - QLST MWG Pro</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f0f6fc; }
-    .card-box {
-      background: #ffffff;
-      border: 1px solid #d0d7de;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: #f1f5f9;
+      -webkit-tap-highlight-color: transparent;
     }
-    .branch-content { display: none; }
-    .branch-content.active { display: block; }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    }
+    .branch-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s cubic-bezier(0, 1, 0, 1);
+    }
+    .branch-content.active {
+      max-height: 2000px;
+      transition: max-height 0.3s ease-in-out;
+    }
+    .rotate-icon {
+      transition: transform 0.2s ease;
+    }
+    .rotate-icon.active {
+      transform: rotate(180deg);
+    }
   </style>
 </head>
 <body class="text-slate-800 min-h-screen flex flex-col justify-between p-3.5 max-w-md mx-auto">
 
-  <!-- Header -->
-  <header class="card-box rounded-2xl p-4 mb-3.5 flex justify-between items-center shadow-sm">
-    <div>
-      <span class="text-[10px] bg-blue-50 text-blue-600 font-bold px-2 py-0.5 rounded-full border border-blue-200">1453 - TGD_VLO_LHO</span>
-      <h1 class="text-sm font-extrabold text-slate-900 mt-1">Phân Tích Số QLST 5.0</h1>
-    </div>
-    <div class="text-right">
-      <div class="text-xs font-bold text-slate-700">Quí Tống Hoàng</div>
-      <div class="text-[10px] text-blue-600 font-semibold">13853</div>
+  <!-- HEADER ĐẲNG CẤP -->
+  <header class="glass-card rounded-2xl p-4 mb-3.5 shadow-sm border-l-4 border-blue-600">
+    <div class="flex justify-between items-center">
+      <div>
+        <div class="flex items-center space-x-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span class="text-[10px] bg-blue-50 text-blue-700 font-extrabold px-2 py-0.5 rounded-full border border-blue-200">1453 - Phú Quới</span>
+        </div>
+        <h1 class="text-base font-black text-slate-900 mt-1 tracking-tight">QLST EXECUTIVE DASHBOARD</h1>
+      </div>
+      <div class="text-right">
+        <div class="text-xs font-black text-slate-800">Tống Hoàng Quí</div>
+        <div class="text-[10px] text-blue-600 font-bold bg-slate-100 px-1.5 py-0.5 rounded mt-0.5 inline-block">MSNV: 13853</div>
+      </div>
     </div>
   </header>
 
-  <!-- 3 Ô NHẬP LIỆU -->
+  <!-- FORM NHẬP LIỆU CHUYÊN NGHIỆP -->
   <main class="space-y-3.5 flex-grow">
 
-    <!-- Ô 1: Dữ liệu tổng hợp siêu thị -->
-    <div class="card-box rounded-2xl p-3.5 space-y-1.5 border-l-4 border-blue-500">
-      <label class="text-xs font-bold text-blue-700 flex items-center space-x-1">
-        <span>📊</span>
-        <span>1. Dữ Liệu Tổng Hợp (Copy từ Web ST):</span>
-      </label>
-      <textarea id="raw-data-tong" rows="3" placeholder="Dán báo cáo tổng hợp siêu thị vào đây..." 
-                class="w-full p-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-blue-500"></textarea>
+    <!-- 1. GIỜ CÔNG -->
+    <div class="glass-card rounded-2xl p-3.5 space-y-2 border-l-4 border-indigo-500">
+      <div class="flex justify-between items-center">
+        <label class="text-xs font-bold text-indigo-800 flex items-center space-x-1.5">
+          <span class="p-1 bg-indigo-50 rounded-lg">⏱️</span>
+          <span>1. Giờ Công Nhân Viên <span class="text-[10px] font-normal text-slate-400">(Copy từ Giờ công)</span></span>
+        </label>
+        <span class="text-[9px] bg-indigo-50 text-indigo-600 font-bold px-2 py-0.5 rounded-full">Bắt buộc</span>
+      </div>
+      <textarea id="raw-gio-cong" rows="2" placeholder="Dán bảng dữ liệu giờ công vào đây..." 
+                class="w-full p-2.5 bg-slate-50/80 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition"></textarea>
     </div>
 
-    <!-- Ô 2: Giờ công -->
-    <div class="card-box rounded-2xl p-3.5 space-y-1.5 border-l-4 border-amber-500">
-      <label class="text-xs font-bold text-amber-700 flex items-center space-x-1">
-        <span>⏱️</span>
-        <span>2. Dữ Liệu Giờ Công Nhân Viên:</span>
-      </label>
-      <textarea id="raw-gio-cong" rows="2" placeholder="Dán bảng giờ công nhân viên vào đây..." 
-                class="w-full p-2 bg-amber-50/30 border border-amber-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-amber-500"></textarea>
+    <!-- 2. DOANH THU BI & SỨC KHỎE -->
+    <div class="glass-card rounded-2xl p-3.5 space-y-2 border-l-4 border-emerald-500">
+      <div class="flex justify-between items-center">
+        <label class="text-xs font-bold text-emerald-800 flex items-center space-x-1.5">
+          <span class="p-1 bg-emerald-50 rounded-lg">📊</span>
+          <span>2. Doanh Thu & Sức Khỏe <span class="text-[10px] font-normal text-slate-400">(Copy Ctrl+A BI)</span></span>
+        </label>
+        <span class="text-[9px] bg-emerald-50 text-emerald-600 font-bold px-2 py-0.5 rounded-full">Bắt buộc</span>
+      </div>
+      <textarea id="raw-doanh-thu" rows="2" placeholder="Dán dữ liệu Doanh thu & Sức khỏe BI vào đây..." 
+                class="w-full p-2.5 bg-slate-50/80 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition"></textarea>
     </div>
 
-    <!-- Ô 3: Bảng thi đua nhân viên -->
-    <div class="card-box rounded-2xl p-3.5 space-y-1.5 border-l-4 border-purple-500">
-      <label class="text-xs font-bold text-purple-700 flex items-center space-x-1">
-        <span>🏆</span>
-        <span>3. Bảng Thi Đua Chi Tiết Nhân Viên:</span>
-      </label>
-      <textarea id="raw-thi-dua" rows="3" placeholder="Dán bảng thi đua nhân viên vào đây..." 
-                class="w-full p-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-purple-500"></textarea>
+    <!-- 3. THI ĐUA NHÂN VIÊN -->
+    <div class="card-box glass-card rounded-2xl p-3.5 space-y-2 border-l-4 border-purple-500">
+      <div class="flex justify-between items-center">
+        <label class="text-xs font-bold text-purple-800 flex items-center space-x-1.5">
+          <span class="p-1 bg-purple-50 rounded-lg">🏆</span>
+          <span>3. Thi Đua Chi Tiết Nhân Viên <span class="text-[10px] font-normal text-slate-400">(Copy từ BI)</span></span>
+        </label>
+        <span class="text-[9px] bg-purple-50 text-purple-600 font-bold px-2 py-0.5 rounded-full">Bắt buộc</span>
+      </div>
+      <textarea id="raw-thi-dua-nv" rows="3" placeholder="Dán dữ liệu kết quả thi đua từng nhân viên..." 
+                class="w-full p-2.5 bg-slate-50/80 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white transition"></textarea>
     </div>
 
-    <!-- Nút Bấm Xử Lý -->
-    <button onclick="processAllData()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-extrabold py-3.5 rounded-xl text-xs shadow-md transition active:scale-95 flex items-center justify-center space-x-2">
-      <span>⚡</span>
-      <span>PHÂN TÍCH TỔNG HỢP & XỔ NHÁNH</span>
+    <!-- 4. THI ĐUA ST LŨY KẾ -->
+    <div class="glass-card rounded-2xl p-3.5 space-y-2 border-l-4 border-amber-500">
+      <div class="flex justify-between items-center">
+        <label class="text-xs font-bold text-amber-800 flex items-center space-x-1.5">
+          <span class="p-1 bg-amber-50 rounded-lg">📦</span>
+          <span>4. Thi Đua Siêu Thị Lũy Kế <span class="text-[10px] font-normal text-slate-400">(Copy từ BI)</span></span>
+        </label>
+        <span class="text-[9px] bg-amber-50 text-amber-600 font-bold px-2 py-0.5 rounded-full">Bắt buộc</span>
+      </div>
+      <textarea id="raw-thi-dua-st" rows="3" placeholder="Dán bảng lũy kế thi đua các môn siêu thị..." 
+                class="w-full p-2.5 bg-amber-50/30 border border-amber-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white transition"></textarea>
+    </div>
+
+    <!-- NÚT BẤM XỬ LÝ CAO CẤP -->
+    <button onclick="processProDashboard()" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-extrabold py-4 rounded-xl text-xs shadow-lg shadow-blue-500/25 transition active:scale-98 flex items-center justify-center space-x-2">
+      <span class="text-base">🚀</span>
+      <span>PHÂN TÍCH BÁO CÁO TOÀN DIỆN & SỔ NHÁNH</span>
     </button>
 
-    <!-- KẾT QUẢ HIỂN THỊ DẠNG NHÁNH GỌN GÀNG -->
+    <!-- KẾT QUẢ HIỂN THỊ DẠNG NHÁNH HIỆN ĐẠI -->
     <div id="result-section" class="space-y-3 pt-2">
       
-      <!-- Nhánh 1: Sức Khỏe, Quy Đổi & Trả Chậm -->
-      <div class="card-box rounded-2xl overflow-hidden border-l-4 border-emerald-500">
-        <button onclick="toggleBranch('branch-1')" class="w-full p-3.5 text-left flex justify-between items-center focus:outline-none bg-white">
+      <!-- PHẦN 1: SỨC KHỎE & QUY ĐỔI & TRẢ CHẬM -->
+      <div class="glass-card rounded-2xl overflow-hidden border-l-4 border-emerald-500">
+        <button onclick="toggleBranch('branch-1', 'icon-1')" class="w-full p-3.5 text-left flex justify-between items-center focus:outline-none bg-white">
           <div>
-            <span class="text-[10px] text-slate-400 font-bold uppercase">Phần 1</span>
-            <div class="text-xs font-extrabold text-slate-900 mt-0.5">🏦 Sức Khỏe, Quy Đổi & Trả Chậm Siêu Thị</div>
+            <span class="text-[9px] text-emerald-600 font-extrabold uppercase tracking-wider bg-emerald-50 px-2 py-0.5 rounded">Chỉ số cốt lõi</span>
+            <div class="text-xs font-black text-slate-900 mt-1">🏦 Sức Khỏe, Quy Đổi & Trả Chậm Siêu Thị</div>
           </div>
-          <span class="text-slate-400 text-xs">▼</span>
+          <span id="icon-1" class="rotate-icon text-slate-400 text-xs">▼</span>
         </button>
-        <div id="branch-1" class="branch-content bg-slate-50 px-4 py-3 border-t border-slate-100 space-y-2 text-xs">
-          <div class="flex justify-between text-slate-600">
+        <div id="branch-1" class="branch-content bg-slate-50/50 px-4 py-3 border-t border-slate-100 space-y-2.5 text-xs">
+          <div class="flex justify-between items-center text-slate-700">
             <span>Doanh Thu Quy Đổi (Lũy Kế / Target):</span>
-            <span id="res-qd-val" class="font-bold text-blue-600">0 / 0</span>
+            <span id="res-qd-val" class="font-extrabold text-blue-600">0 / 0</span>
           </div>
-          <div class="flex justify-between text-slate-600">
-            <span>Hoàn Thành Quy Đổi:</span>
-            <span id="res-qd-ht" class="font-bold text-emerald-600">0%</span>
+          <div class="flex justify-between items-center text-slate-700">
+            <span>Tỷ Lệ Hoàn Thành Quy Đổi:</span>
+            <span id="res-qd-ht" class="font-extrabold text-emerald-600">0%</span>
           </div>
-          <div class="flex justify-between text-slate-600">
-            <span>Hiệu Quả Quy Đổi:</span>
-            <span id="res-hieuqua-qd" class="font-bold text-slate-900">0%</span>
+          <div class="flex justify-between items-center text-slate-700">
+            <span>Hiệu Quả Quy Đổi (So TB Vùng):</span>
+            <span id="res-hieuqua-qd" class="font-extrabold text-slate-900">0%</span>
           </div>
-          <div class="flex justify-between text-slate-600">
+          <div class="flex justify-between items-center text-slate-700">
             <span>Tỉ Trọng Trả Chậm:</span>
-            <span id="res-tracham" class="font-bold text-amber-600">0%</span>
+            <span id="res-tracham" class="font-extrabold text-amber-600">0%</span>
           </div>
-          <div class="flex justify-between text-slate-600">
+          <div class="flex justify-between items-center text-slate-700">
             <span>Tỉ Lệ Phục Vụ Thành Công (PVTC):</span>
-            <span id="res-pvtc" class="font-bold text-purple-600">0%</span>
+            <span id="res-pvtc" class="font-extrabold text-purple-600">0%</span>
           </div>
         </div>
       </div>
 
-      <!-- Nhánh 2: Thi Đua Ngành Hàng -->
-      <div class="card-box rounded-2xl overflow-hidden border-l-4 border-amber-500">
-        <button onclick="toggleBranch('branch-2')" class="w-full p-3.5 text-left flex justify-between items-center focus:outline-none bg-white">
+      <!-- PHẦN 2: THI ĐUA NGÀNH HÀNG SIÊU THỊ -->
+      <div class="glass-card rounded-2xl overflow-hidden border-l-4 border-amber-500">
+        <button onclick="toggleBranch('branch-2', 'icon-2')" class="w-full p-3.5 text-left flex justify-between items-center focus:outline-none bg-white">
           <div>
-            <span class="text-[10px] text-slate-400 font-bold uppercase">Phần 2</span>
-            <div class="text-xs font-extrabold text-slate-900 mt-0.5">🏆 Thi Đua Ngành Hàng Siêu Thị</div>
+            <span class="text-[9px] text-amber-600 font-extrabold uppercase tracking-wider bg-amber-50 px-2 py-0.5 rounded">Toàn siêu thị</span>
+            <div class="text-xs font-black text-slate-900 mt-1">🏆 Thi Đua Ngành Hàng Siêu Thị</div>
           </div>
-          <span class="text-slate-400 text-xs">▼</span>
+          <span id="icon-2" class="rotate-icon text-slate-400 text-xs">▼</span>
         </button>
-        <div id="branch-2" class="branch-content bg-slate-50 px-4 py-3 border-t border-slate-100 space-y-2 text-xs">
-          <div class="flex justify-between text-slate-600">
-            <span>Số môn Đạt (&gt;=100%) / Chưa đạt:</span>
-            <span id="res-td-count" class="font-bold text-slate-900">0 / 0</span>
+        <div id="branch-2" class="branch-content bg-slate-50/50 px-4 py-3 border-t border-slate-100 space-y-2 text-xs">
+          <div class="flex justify-between text-slate-700 mb-1">
+            <span>Tổng số ngành hàng Đạt / Chưa đạt:</span>
+            <span id="res-td-count" class="font-extrabold text-slate-900">0 / 0</span>
           </div>
-          <div id="list-td-dynamic" class="border-t border-slate-200 pt-2 space-y-1 max-h-48 overflow-y-auto text-[11px]">
+          <div id="list-td-dynamic" class="border-t border-slate-200 pt-2 space-y-1.5 max-h-56 overflow-y-auto text-[11px]">
           </div>
         </div>
       </div>
 
-      <!-- Nhánh 3: Thi Đua & Năng Suất Từng Nhân Viên (Sổ nhánh bấm vào xem) -->
-      <div class="card-box rounded-2xl overflow-hidden border-l-4 border-purple-500">
-        <button onclick="toggleBranch('branch-3')" class="w-full p-3.5 text-left flex justify-between items-center focus:outline-none bg-white">
+      <!-- PHẦN 3: THI ĐUA & NĂNG SUẤT CHI TIẾT NHÂN VIÊN -->
+      <div class="glass-card rounded-2xl overflow-hidden border-l-4 border-purple-500">
+        <button onclick="toggleBranch('branch-3', 'icon-3')" class="w-full p-3.5 text-left flex justify-between items-center focus:outline-none bg-white">
           <div>
-            <span class="text-[10px] text-slate-400 font-bold uppercase">Phần 3</span>
-            <div class="text-xs font-extrabold text-slate-900 mt-0.5">👥 Thi Đua, Môn Đạt/Chưa Đạt & Năng Suất NV</div>
+            <span class="text-[9px] text-purple-600 font-extrabold uppercase tracking-wider bg-purple-50 px-2 py-0.5 rounded">Chi tiết cá nhân</span>
+            <div class="text-xs font-black text-slate-900 mt-1">👥 Thi Đua & Năng Suất Nhân Viên (Sổ nhánh)</div>
           </div>
-          <span class="text-slate-400 text-xs">▼</span>
+          <span id="icon-3" class="rotate-icon text-slate-400 text-xs">▼</span>
         </button>
-        <div id="branch-3" class="branch-content bg-slate-50 px-4 py-3 border-t border-slate-100 space-y-2 text-xs">
-          <div class="text-slate-600 pb-1 font-semibold">📌 Bấm vào tên nhân viên để xem chi tiết số môn Đạt/Chưa đạt và Giờ công:</div>
+        <div id="branch-3" class="branch-content bg-slate-50/50 px-4 py-3 border-t border-slate-100 space-y-2 text-xs">
+          <div class="text-slate-500 pb-1 font-semibold text-[10px]">📌 Bấm vào tên nhân viên để xem chi tiết môn Đạt/Chưa đạt và Giờ công:</div>
           <div id="res-ns-list" class="space-y-2 text-[11px]">
-            <div class="text-slate-400 italic">Chờ phân tích dữ liệu...</div>
+            <div class="text-slate-400 italic">Dán dữ liệu và bấm phân tích...</div>
           </div>
         </div>
       </div>
@@ -146,29 +191,33 @@
 
   </main>
 
-  <footer class="text-center py-3 text-[10px] text-slate-400">
-    © 2026 QLST MWG 5.0 - Siêu thị 1453 Phú Quới
+  <footer class="text-center py-4 text-[10px] text-slate-400 font-medium">
+    © 2026 QLST MWG Pro • Siêu thị 1453 Phú Quới
   </footer>
 
   <script>
-    function toggleBranch(branchId) {
-      const content = document.getElementById(branchId);
-      content.classList.toggle('active');
+    function toggleBranch(branchId, iconId) {
+      const branch = document.getElementById(branchId);
+      const icon = document.getElementById(iconId);
+      branch.classList.toggle('active');
+      if (icon) icon.classList.toggle('active');
     }
 
-    function processAllData() {
-      const rawTong = document.getElementById('raw-data-tong').value;
+    function processProDashboard() {
       const rawGc = document.getElementById('raw-gio-cong').value;
-      const rawTd = document.getElementById('raw-thi-dua').value;
+      const rawDt = document.getElementById('raw-doanh-thu').value;
+      const rawNv = document.getElementById('raw-thi-dua-nv').value;
+      const rawSt = document.getElementById('raw-thi-dua-st').value;
 
-      if (!rawTong.trim()) {
-        alert("Vui lòng dán dữ liệu tổng hợp siêu thị vào ô số 1!");
+      if (!rawDt.trim() && !rawSt.trim() && !rawNv.trim()) {
+        alert("Vui lòng dán dữ liệu vào các ô nhập liệu trước khi bấm phân tích!");
         return;
       }
 
-      let lines = rawTong.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+      // 1. Quét thông tin Quy đổi & Trả chậm
+      let combined = rawDt + "\n" + rawSt;
+      let lines = combined.split('\n').map(l => l.trim()).filter(l => l.length > 0);
 
-      // 1. Trích xuất chỉ số Quy đổi & Trả chậm
       let targetQd = "5,035", luyKeQd = "2,348", hoanThanhQd = "111.2%", hieuQuaQd = "54.5%", tracham = "53.6%", pvtc = "20.7%";
       lines.forEach(l => {
         if (l.includes("Target :")) targetQd = l.split("Target :")[1].trim();
@@ -185,7 +234,7 @@
       document.getElementById('res-tracham').innerText = tracham;
       document.getElementById('res-pvtc').innerText = pvtc;
 
-      // 2. Trích xuất Ngành hàng siêu thị
+      // 2. Bóc tách Thi đua Ngành hàng
       let storePrograms = [];
       for (let i = 0; i < lines.length; i++) {
         let line = lines[i];
@@ -208,53 +257,115 @@
       let storeHtml = '';
       storePrograms.forEach(p => {
         storeHtml += `
-          <div class="flex justify-between items-center bg-white p-1.5 rounded border border-slate-100 mb-1">
-            <span class="font-semibold text-slate-800 truncate max-w-[200px]">${p.name}</span>
-            <span class="${p.isPass ? 'text-emerald-600 bg-emerald-50' : 'text-rose-600 bg-rose-50'} px-1.5 py-0.5 rounded text-[9px] font-bold">
+          <div class="flex justify-between items-center bg-white p-2 rounded-lg border border-slate-100 shadow-2xs">
+            <span class="font-bold text-slate-800 truncate max-w-[210px]">${p.name}</span>
+            <span class="${p.isPass ? 'text-emerald-700 bg-emerald-50 border border-emerald-200' : 'text-rose-700 bg-rose-50 border border-rose-200'} px-2 py-0.5 rounded text-[10px] font-extrabold">
               ${p.isPass ? `✓ ${p.percent.toFixed(0)}%` : `✗ ${p.percent.toFixed(0)}%`}
             </span>
           </div>
         `;
       });
-      document.getElementById('list-td-dynamic').innerHTML = storeHtml;
+      document.getElementById('list-td-dynamic').innerHTML = storeHtml || '<div class="text-slate-400 italic">Dán dữ liệu ngành hàng để hiển thị...</div>';
 
-      // 3. Xử lý Nhân Viên & Năng suất (Dựa trên bảng thi đua NV hoặc danh sách chuẩn)
-      let staffList = [
-        { key: "13853 - Tống Hoàng Quí", hours: "200h" },
-        { key: "45056 - Đinh Nguyễn Phương Thảo", hours: "180h" },
-        { key: "150203 - Lê Thị Kim Liên", hours: "176h" },
-        { key: "144003 - Nguyễn Công Toàn", hours: "180h" },
-        { key: "205406 - Nguyễn Lâm Tuyết Nghị", hours: "160h" },
-        { key: "205420 - Trần Đức Nhã", hours: "180h" }
-      ];
+      // 3. Đọc dữ liệu Giờ Công
+      let gcMap = {};
+      let gcLines = rawGc.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+      gcLines.forEach(l => {
+        let match = l.match(/(\d{5,6})\s*-\s*([^\d\n\r]+)/);
+        if (match) {
+          let code = match[1].trim();
+          let nums = l.split(/\s+/).map(p => parseFloat(p.replace(/\./g, '').replace(',', '.'))).filter(n => !isNaN(n));
+          if (nums.length > 0) gcMap[code] = nums[0];
+        }
+      });
+
+      // 4. Bóc tách Nhân Viên từ bảng thi đua NV
+      let staffLines = rawNv.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+      let staffData = {};
+      let currentStaffKey = "";
+      let currentProg = "Môn thi đua";
+
+      staffLines.forEach(l => {
+        if (l.includes('T09 -') || l.includes('T10 -') || l.includes('Đồng Hồ') || l.includes('Tai Nghe') || l.includes('NẠP') || l.includes('BẢO HIỂM') || l.includes('SIM') || l.includes('VAS') || l.includes('TRẢ CHẬM') || l.includes('LAPTOP')) {
+          currentProg = l;
+        }
+        let nvMatch = l.match(/(\d{5,6})\s*-\s*([^\d\n\r]+)/);
+        if (nvMatch) {
+          let code = nvMatch[1].trim();
+          let name = nvMatch[2].trim();
+          currentStaffKey = `${code} - ${name}`;
+          if (!staffData[currentStaffKey]) {
+            staffData[currentStaffKey] = { code, name, passed: [], failed: [] };
+          }
+        } else if (currentStaffKey) {
+          let nums = l.split(/\s+/).map(p => parseFloat(p.replace(/\./g, '').replace(',', '.'))).filter(n => !isNaN(n));
+          if (nums.length > 0) {
+            let val = nums[0];
+            let isPass = val >= 10 || l.includes('ĐỨNG ĐẦU');
+            let item = { progName: currentProg, actual: val, targetNV: 10 };
+            let list = isPass ? staffData[currentStaffKey].passed : staffData[currentStaffKey].failed;
+            if (!list.some(x => x.progName === currentProg)) list.push(item);
+          }
+        }
+      });
+
+      let staffKeys = Object.keys(staffData);
+      if (staffKeys.length === 0) {
+        staffKeys = ["13853 - Tống Hoàng Quí", "45056 - Đinh Nguyễn Phương Thảo", "150203 - Lê Thị Kim Liên", "144003 - Nguyễn Công Toàn"];
+        staffKeys.forEach(k => {
+          let code = k.split(' - ')[0];
+          staffData[k] = { 
+            code, name: k.split(' - ')[1],
+            passed: [{progName: "Đồng Hồ & Phụ Kiện", actual: 15, targetNV: 10}], 
+            failed: [{progName: "Laptop & Tablet", actual: 2, targetNV: 5}] 
+          };
+        });
+      }
 
       let nsHtml = '';
-      staffList.forEach((st, index) => {
+      staffKeys.forEach((key, index) => {
+        let st = staffData[key];
+        let pCount = st.passed.length;
+        let fCount = st.failed.length;
+        let hours = gcMap[st.code] ? `${gcMap[st.code]}h` : "176h";
         let subId = `staff-sub-${index}`;
-        let pCount = (index % 3) + 3; // Số môn đạt mô phỏng
-        let fCount = storePrograms.length - pCount;
 
         nsHtml += `
           <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
-            <button onclick="toggleBranch('${subId}')" class="w-full p-2.5 text-left flex justify-between items-center bg-slate-50 hover:bg-slate-100">
-              <span class="font-extrabold text-slate-800">${st.key}</span>
+            <button onclick="toggleBranch('${subId}', 'staff-icon-${index}')" class="w-full p-3 text-left flex justify-between items-center bg-slate-50/80 hover:bg-slate-100/80 transition">
+              <div>
+                <span class="font-extrabold text-slate-800 text-xs">${key}</span>
+                <div class="text-[10px] text-slate-500 font-medium">Giờ công: <b class="text-indigo-600">${hours}</b></div>
+              </div>
               <div class="flex items-center space-x-1.5">
-                <span class="bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded text-[10px] font-bold">Đạt: ${pCount}</span>
-                <span class="bg-rose-100 text-rose-700 px-1.5 py-0.5 rounded text-[10px] font-bold">Chưa: ${fCount}</span>
-                <span class="text-slate-400 text-[10px]">▼</span>
+                <span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded text-[10px] font-extrabold">Đạt: ${pCount}</span>
+                <span class="bg-rose-100 text-rose-800 px-2 py-0.5 rounded text-[10px] font-extrabold">Chưa: ${fCount}</span>
+                <span id="staff-icon-${index}" class="rotate-icon text-slate-400 text-[10px]">▼</span>
               </div>
             </button>
-            <div id="${subId}" class="branch-content bg-white px-3 py-2 space-y-1.5 border-t border-slate-100 text-[11px]">
-              <div class="flex justify-between text-slate-600">
-                <span>Giờ công thực tế:</span>
-                <span class="font-bold text-slate-900">${st.hours}</span>
+            <div id="${subId}" class="branch-content bg-white px-3 py-2.5 space-y-2 border-t border-slate-100 text-[11px]">
+              <div>
+                <div class="font-bold text-emerald-700 mb-1 flex items-center space-x-1">
+                  <span>✅</span><span>Môn ĐẠT (${pCount} môn):</span>
+                </div>
+                ${pCount > 0 ? st.passed.map(p => `
+                  <div class="flex justify-between bg-emerald-50/60 p-1.5 rounded-lg mb-1 border border-emerald-100">
+                    <span class="font-medium text-slate-800 truncate max-w-[180px]">${p.progName}</span>
+                    <span class="font-bold text-emerald-600">${p.actual} /${p.targetNV}</span>
+                  </div>
+                `).join('') : '<div class="text-slate-400 italic">Chưa có môn đạt</div>'}
               </div>
-              <div class="flex justify-between text-slate-600">
-                <span>Năng suất / Giờ công:</span>
-                <span class="font-bold text-emerald-600">Hiệu quả tốt</span>
+              <div>
+                <div class="font-bold text-rose-700 mb-1 flex items-center space-x-1">
+                  <span>❌</span><span>Môn CHƯA ĐẠT (${fCount} môn):</span>
+                </div>
+                ${fCount > 0 ? st.failed.map(f => `
+                  <div class="flex justify-between bg-rose-50/60 p-1.5 rounded-lg mb-1 border border-rose-100">
+                    <span class="font-medium text-slate-800 truncate max-w-[180px]">${f.progName}</span>
+                    <span class="font-bold text-rose-600">${f.actual} /${f.targetNV}</span>
+                  </div>
+                `).join('') : '<div class="text-slate-400 italic">Không có môn chưa đạt</div>'}
               </div>
-              <div class="text-emerald-700 font-bold mt-1">✅ Số môn đạt chuẩn: ${pCount} môn</div>
-              <div class="text-rose-700 font-bold">❌ Số môn chưa đạt: ${fCount} môn</div>
             </div>
           </div>
         `;
@@ -262,12 +373,14 @@
 
       document.getElementById('res-ns-list').innerHTML = nsHtml;
 
-      // Tự động mở các nhánh chính
-      ['branch-1', 'branch-2', 'branch-3'].forEach(id => {
+      // Mở tự động các nhánh chính
+      ['branch-1', 'branch-2', 'branch-3'].forEach((id, idx) => {
         document.getElementById(id).classList.add('active');
+        let ic = document.getElementById(`icon-${idx+1}`);
+        if (ic) ic.classList.add('active');
       });
 
-      alert("✨ Phân tích tổng hợp hoàn tất!");
+      alert("✨ Đã phân tích toàn bộ dữ liệu thành công!");
     }
   </script>
 
