@@ -49,18 +49,18 @@
     <!-- Nút Bấm Xử Lý -->
     <button onclick="processTongData()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-extrabold py-3.5 rounded-xl text-xs shadow-md transition active:scale-95 flex items-center justify-center space-x-2">
       <span>⚡</span>
-      <span>PHÂN TÍCH TỰ ĐỘNG DỮ LIỆU TỔNG</span>
+      <span>PHÂN TÍCH TỰ ĐỘNG (QUY ĐỔI, TRẢ CHẬM, NĂNG SUẤT)</span>
     </button>
 
     <!-- KẾT QUẢ HIỂN THỊ -->
     <div id="result-section" class="space-y-3 pt-2">
       
-      <!-- Mục 1: Sức Khỏe Siêu Thị -->
+      <!-- Mục 1: Sức Khỏe & Quy Đổi Siêu Thị -->
       <div class="card-box rounded-2xl overflow-hidden border-l-4 border-emerald-500">
         <button onclick="toggleBranch('branch-1')" class="w-full p-3.5 text-left flex justify-between items-center focus:outline-none bg-white">
           <div>
             <span class="text-[10px] text-slate-400 font-bold uppercase">Mục 1</span>
-            <div class="text-xs font-extrabold text-slate-900 mt-0.5">🏦 Sức Khỏe Siêu Thị & Hoàn Thành</div>
+            <div class="text-xs font-extrabold text-slate-900 mt-0.5">🏦 Sức Khỏe, Quy Đổi & Trả Chậm</div>
           </div>
           <div class="flex items-center space-x-2">
             <span id="res-sk-summary" class="text-xs font-black text-emerald-600">Chờ dữ liệu...</span>
@@ -69,20 +69,44 @@
         </button>
         <div id="branch-1" class="branch-content bg-slate-50 px-4 py-3 border-t border-slate-100 space-y-2 text-xs">
           <div class="flex justify-between text-slate-600">
-            <span>Target Tổng:</span>
-            <span id="res-target" class="font-bold text-slate-900">0</span>
+            <span>Doanh Thu Quy Đổi (Lũy Kế / Target):</span>
+            <span id="res-qd-val" class="font-bold text-blue-600">0 / 0</span>
           </div>
           <div class="flex justify-between text-slate-600">
-            <span>Lũy Kế Thực Hiện:</span>
-            <span id="res-luyke" class="font-bold text-blue-600">0</span>
+            <span>Hoàn Thành Quy Đổi:</span>
+            <span id="res-qd-ht" class="font-bold text-emerald-600">0%</span>
           </div>
           <div class="flex justify-between text-slate-600">
-            <span>Dự Kiến Chạy:</span>
-            <span id="res-dukien" class="font-bold text-amber-600">0</span>
+            <span>Hiệu Quả Quy Đổi:</span>
+            <span id="res-hieuqua-qd" class="font-bold text-slate-900">0%</span>
           </div>
           <div class="flex justify-between text-slate-600">
-            <span>Tỷ Lệ Hoàn Thành:</span>
-            <span id="res-hoanthanh" class="font-bold text-emerald-600">0%</span>
+            <span>Tỉ Trọng Trả Chậm:</span>
+            <span id="res-tracham" class="font-bold text-amber-600">0%</span>
+          </div>
+          <div class="flex justify-between text-slate-600">
+            <span>Tỉ Lệ Phục Vụ Thành Công (PVTC):</span>
+            <span id="res-pvtc" class="font-bold text-purple-600">0%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mục 2: Năng Suất Nhân Sự & Sức Khỏe NV -->
+      <div class="card-box rounded-2xl overflow-hidden border-l-4 border-purple-500">
+        <button onclick="toggleBranch('branch-2')" class="w-full p-3.5 text-left flex justify-between items-center focus:outline-none bg-white">
+          <div>
+            <span class="text-[10px] text-slate-400 font-bold uppercase">Mục 2</span>
+            <div class="text-xs font-extrabold text-slate-900 mt-0.5">👥 Sức Khỏe & Năng Suất Nhân Sự</div>
+          </div>
+          <div class="flex items-center space-x-2">
+            <span id="res-ns-summary" class="text-xs font-black text-purple-600">Chờ dữ liệu...</span>
+            <span class="text-slate-400 text-xs">▼</span>
+          </div>
+        </button>
+        <div id="branch-2" class="branch-content bg-slate-50 px-4 py-3 border-t border-slate-100 space-y-2 text-xs">
+          <div class="text-slate-600 pb-1 font-semibold">📌 Đánh giá năng suất và đóng góp nhân sự sàn:</div>
+          <div id="res-ns-list" class="space-y-2 text-[11px]">
+            <div class="text-slate-400 italic">Dán dữ liệu tổng hợp để xem chi tiết năng suất...</div>
           </div>
         </div>
       </div>
@@ -139,15 +163,36 @@
         return;
       }
 
-      // 1. Quét thông tin Sức Khỏe Siêu Thị (Mục 1)
-      let targetVal = "5,035";
-      let luyKeVal = "2,348";
-      let duKienVal = "5,600";
-      let hoanThanhVal = "111.2%";
-
       let lines = rawText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
-      
-      // Quét Mục 3: Thi đua ngành hàng
+
+      // 1. Trích xuất chỉ số Quy đổi & Sức khỏe Siêu Thị (Mục 1)
+      let targetQd = "5,035";
+      let luyKeQd = "2,348";
+      let hoanThanhQd = "111.2%";
+      let hieuQuaQd = "54.5%";
+      let tỉTrọngTracham = "53.6%";
+      let pvtc = "20.7%";
+
+      // Tìm kiếm thông minh trong văn bản thô
+      for (let i = 0; i < lines.length; i++) {
+        let l = lines[i];
+        if (l.includes("Target :")) targetQd = l.split("Target :")[1].trim();
+        if (l.includes("Lũy Kế :")) luyKeQd = l.split("Lũy Kế :")[1].trim();
+        if (l.includes("Hoàn Thành :")) hoanThanhQd = l.split("Hoàn Thành :")[1].trim();
+        if (l.includes("Hiệu Quả QĐ :")) hieuQuaQd = l.split("Hiệu Quả QĐ :")[1].trim();
+        if (l.includes("Tỉ Trọng :")) tỉTrọngTracham = l.split("Tỉ Trọng :")[1].trim();
+        if (l.includes("Tỉ Lệ PVTC :")) pvtc = l.split("Tỉ Lệ PVTC :")[1].trim();
+      }
+
+      // Đổ số liệu Mục 1
+      document.getElementById('res-sk-summary').innerText = hoanThanhQd;
+      document.getElementById('res-qd-val').innerText = `${luyKeQd} / ${targetQd}`;
+      document.getElementById('res-qd-ht').innerText = hoanThanhQd;
+      document.getElementById('res-hieuqua-qd').innerText = hieuQuaQd;
+      document.getElementById('res-tracham').innerText = tỉTrọngTracham;
+      document.getElementById('res-pvtc').innerText = pvtc;
+
+      // 2. Trích xuất Mục 3: Thi Đua Ngành Hàng
       let storePrograms = [];
       for (let i = 0; i < lines.length; i++) {
         let line = lines[i];
@@ -172,40 +217,5 @@
         }
       }
 
-      // Đổ số liệu Mục 1
-      document.getElementById('res-sk-summary').innerText = hoanThanhVal;
-      document.getElementById('res-target').innerText = targetVal;
-      document.getElementById('res-luyke').innerText = luyKeVal;
-      document.getElementById('res-dukien').innerText = duKienVal;
-      document.getElementById('res-hoanthanh').innerText = hoanThanhVal;
-
-      // Đổ số liệu Mục 3
       let passCount = storePrograms.filter(p => p.isPass).length;
-      let failCount = storePrograms.length - passCount;
-      document.getElementById('res-td-summary').innerText = `${storePrograms.length} Nhóm Hàng`;
-      document.getElementById('res-td-dat').innerText = `${passCount} Môn`;
-      document.getElementById('res-td-chuadat').innerText = `${failCount} Môn`;
-
-      let storeHtml = '';
-      storePrograms.forEach(p => {
-        storeHtml += `
-          <div class="flex justify-between items-center bg-white p-1.5 rounded border border-slate-100 mb-1">
-            <span class="font-semibold text-slate-800 truncate max-w-[200px]">${p.name}</span>
-            <span class="${p.isPass ? 'text-emerald-600 bg-emerald-50' : 'text-rose-600 bg-rose-50'} px-1.5 py-0.5 rounded text-[9px] font-bold">
-              ${p.isPass ? `✓ ${p.percent.toFixed(0)}%` : `✗ ${p.percent.toFixed(0)}%`}
-            </span>
-          </div>
-        `;
-      });
-      document.getElementById('list-td-dynamic').innerHTML = storeHtml;
-
-      ['branch-1', 'branch-3'].forEach(id => {
-        document.getElementById(id).classList.add('active');
-      });
-
-      alert("✨ Phân tích dữ liệu tổng hợp thành công!");
-    }
-  </script>
-
-</body>
-</html>
+      let failCount = storePrograms.length - passCount
