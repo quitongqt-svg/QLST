@@ -13,12 +13,8 @@
       border: 1px solid #d0d7de;
       box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
-    .branch-content {
-      display: none;
-    }
-    .branch-content.active {
-      display: block;
-    }
+    .branch-content { display: none; }
+    .branch-content.active { display: block; }
   </style>
 </head>
 <body class="text-slate-800 min-h-screen flex flex-col justify-between p-3.5 max-w-md mx-auto">
@@ -35,7 +31,7 @@
     </div>
   </header>
 
-  <!-- KHU VỰC DÁN DATA TỪ DMX / BI -->
+  <!-- KHU VỰC NHẬP / DÁN DATA TỪ DMX / BI -->
   <main class="space-y-3.5 flex-grow">
 
     <!-- 1. Doanh thu BI -->
@@ -47,30 +43,43 @@
         </label>
         <span class="text-[10px] bg-slate-100 text-slate-600 font-bold px-2 py-0.5 rounded">Dữ liệu thô</span>
       </div>
-      <textarea id="raw-doanh-thu" rows="3" placeholder="Paste toàn bộ báo cáo Doanh thu DMX/BI vào đây..." 
+      <textarea id="raw-doanh-thu" rows="2" placeholder="Paste báo cáo Doanh thu DMX/BI vào đây..." 
                 class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-700 focus:outline-none focus:border-blue-500 focus:bg-white"></textarea>
     </div>
 
-    <!-- 2. Thi đua & Nhân sự -->
+    <!-- 2. Ô MỚI BỔ SUNG: TARGET TỔNG CÁC MÔN THI ĐƯA SIÊU THỊ -->
+    <div class="card-box rounded-2xl p-4 space-y-2 border-l-4 border-amber-500">
+      <div class="flex justify-between items-center">
+        <label class="text-xs font-bold text-amber-700 flex items-center space-x-1">
+          <span>🎯</span>
+          <span>Target / Chỉ Tiêu Tổng Các Môn Thi Đua ST:</span>
+        </label>
+        <span class="text-[10px] bg-amber-50 text-amber-600 font-bold px-2 py-0.5 rounded border border-amber-200">Quan trọng</span>
+      </div>
+      <textarea id="raw-target-mon" rows="3" placeholder="Dán hoặc gõ Target tổng các môn của siêu thị vào đây (Ví dụ: iPhone: 50, Nạp tiền: 200, Đồng hồ: 30...)" 
+                class="w-full p-2.5 bg-amber-50/30 border border-amber-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-amber-500 focus:bg-white"></textarea>
+    </div>
+
+    <!-- 3. Kết quả thi đua thực tế dán từ DMX -->
     <div class="card-box rounded-2xl p-4 space-y-2">
       <div class="flex justify-between items-center">
         <label class="text-xs font-bold text-blue-700 flex items-center space-x-1">
           <span>🏆</span>
-          <span>Bảng Thi đua nhân viên: <span class="text-[10px] font-normal text-slate-500">(Paste bảng Thi đua DMX)</span></span>
+          <span>Kết Quả Thi Đua Thực Tế NV: <span class="text-[10px] font-normal text-slate-500">(Paste DMX)</span></span>
         </label>
         <span class="text-[10px] bg-slate-100 text-slate-600 font-bold px-2 py-0.5 rounded">Dữ liệu thô</span>
       </div>
-      <textarea id="raw-thi-dua" rows="3" placeholder="Paste bảng Thi đua cá nhân/chương trình vào đây..." 
+      <textarea id="raw-thi-dua" rows="3" placeholder="Paste bảng kết quả Thi đua nhân viên dán từ DMX vào đây..." 
                 class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-700 focus:outline-none focus:border-blue-500 focus:bg-white"></textarea>
     </div>
 
     <!-- Nút Bấm Xử Lý -->
     <button onclick="processDmxData()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-extrabold py-3.5 rounded-xl text-xs shadow-md transition active:scale-95 flex items-center justify-center space-x-2">
       <span>⚡</span>
-      <span>PHÂN TÍCH & XUẤT BÁO CÁO TRỰC QUAN</span>
+      <span>TÍNH TARGET NV & XUẤT BÁO CÁO</span>
     </button>
 
-    <!-- KẾT QUẢ HIỂN THỊ (SỔ TRỰC TIẾP CHẮC CHẮN 100%) -->
+    <!-- KẾT QUẢ HIỂN THỊ -->
     <div id="result-section" class="space-y-3 pt-2">
       
       <!-- Mục 1: Doanh thu thực -->
@@ -134,7 +143,7 @@
         <button onclick="toggleBranch('branch-3')" class="w-full p-3.5 text-left flex justify-between items-center focus:outline-none bg-white">
           <div>
             <span class="text-[10px] text-slate-400 font-bold uppercase">Mục 3</span>
-            <div class="text-xs font-extrabold text-slate-900 mt-0.5">🏆 Thi Đua Tổng Chương Trình</div>
+            <div class="text-xs font-extrabold text-slate-900 mt-0.5">🏆 Thi Đua Tổng Siêu Thị</div>
           </div>
           <div class="flex items-center space-x-2">
             <span id="res-td-summary" class="text-xs font-black text-amber-600">Chờ dữ liệu...</span>
@@ -143,28 +152,22 @@
         </button>
         <div id="branch-3" class="branch-content bg-slate-50 px-4 py-3 border-t border-slate-100 space-y-2 text-xs">
           <div class="flex justify-between text-slate-600">
-            <span>Số môn Đạt (&gt;=100%):</span>
+            <span>Số môn Siêu Thị Đạt Target:</span>
             <span id="res-td-dat" class="font-bold text-emerald-600">0 Môn</span>
           </div>
           <div class="flex justify-between text-slate-600 pb-1">
-            <span>Số môn Chưa đạt (&lt;100%):</span>
+            <span>Số môn Siêu Thị Chưa Đạt:</span>
             <span id="res-td-chuadat" class="font-bold text-rose-600">0 Môn</span>
-          </div>
-
-          <div class="border-t border-slate-200 pt-2 space-y-1">
-            <div id="list-td-dynamic" class="space-y-1 max-h-60 overflow-y-auto pr-1 text-[11px]">
-              <div class="text-slate-400 italic">Dán dữ liệu để xem tổng hợp...</div>
-            </div>
           </div>
         </div>
       </div>
 
-      <!-- Mục 4: THI ĐUA THEO TỪNG NHÂN VIÊN -->
+      <!-- Mục 4: THI ĐUA THEO TỪNG NHÂN VIÊN (TỰ CHIA TARGET THEO CỤC TRÊN) -->
       <div class="card-box rounded-2xl overflow-hidden border-l-4 border-purple-500">
         <button onclick="toggleBranch('branch-4')" class="w-full p-3.5 text-left flex justify-between items-center focus:outline-none bg-white">
           <div>
             <span class="text-[10px] text-slate-400 font-bold uppercase">Mục 4</span>
-            <div class="text-xs font-extrabold text-slate-900 mt-0.5">👥 Thi Đua Theo Nhân Viên (Bấm sổ ra)</div>
+            <div class="text-xs font-extrabold text-slate-900 mt-0.5">👥 Thi Đua Nhân Viên (Target Môn / Số NV)</div>
           </div>
           <div class="flex items-center space-x-2">
             <span id="res-ns-summary" class="text-xs font-black text-purple-600">Chờ dữ liệu...</span>
@@ -172,9 +175,9 @@
           </div>
         </button>
         <div id="branch-4" class="branch-content bg-slate-50 px-4 py-3 border-t border-slate-100 space-y-2 text-xs">
-          <div class="text-slate-600 pb-1 font-semibold"> Chạm vào tên nhân viên để xem môn Đạt/Chưa đạt:</div>
+          <div class="text-slate-600 pb-1 font-semibold">📌 Kết quả so sánh [Thực tế NV / (Target môn ST ÷ Số NV sàn)]:</div>
           <div id="res-ns-list" class="space-y-2 text-[11px]">
-            <div class="text-slate-400 italic">Dán dữ liệu báo cáo DMX vào để xem danh sách nhân viên...</div>
+            <div class="text-slate-400 italic">Nhập/Dán Target & Kết quả thực tế để tính...</div>
           </div>
         </div>
       </div>
@@ -188,7 +191,6 @@
   </footer>
 
   <script>
-    // Hàm bật/tắt sổ nhánh chắc chắn 100%
     function toggleBranch(branchId) {
       const content = document.getElementById(branchId);
       if (content.classList.contains('active')) {
@@ -205,7 +207,9 @@
 
     function processDmxData() {
       const rawDt = document.getElementById('raw-doanh-thu').value;
+      const rawTarget = document.getElementById('raw-target-mon').value;
       const rawTd = document.getElementById('raw-thi-dua').value;
+
       const combinedText = rawDt + "\n" + rawTd;
 
       if (!combinedText.trim()) {
@@ -213,7 +217,7 @@
         return;
       }
 
-      // Doanh thu
+      // Doanh thu tổng
       const moneyMatches = combinedText.match(/[\d]{1,3}(?:\.[\d]{3})*(?:,[\d]+)?/g);
       let totalRevenue = 0;
       if (moneyMatches) {
@@ -227,142 +231,10 @@
       const donGiaTB = conThieu / 650;
       const phanTram = ((totalRevenue / targetKPI) * 100).toFixed(1);
 
-      // THUẬT TOÁN BÓC TÁCH NHÂN VIÊN MỚI (Linh hoạt cho mọi định dạng text DMX)
+      // Bóc tách danh sách Nhân Viên từ dữ liệu dán
       const lines = combinedText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
-      let staffData = {};
-      let currentProgram = "T10 - CHƯƠNG TRÌNH THI ĐUA";
+      let staffList = [];
 
-      lines.forEach((line) => {
+      lines.forEach(line => {
         if (line.includes('QLST') || line.includes('TC')) return;
-
-        if (line.includes('T10 -') || line.includes('T09 -') || line.includes('ĐIỆN THOẠI') || line.includes('NẠP - RÚT')) {
-          currentProgram = line;
-        }
-
-        // Bắt mã nhân viên 5-6 chữ số đi kèm tên (ví dụ: 45056 - Đinh Nguyễn Phương Thảo)
-        const nvMatch = line.match(/(\d{5,6})\s*-\s*([^\d\n\r]+)/);
-        if (nvMatch) {
-          let code = nvMatch[1].trim();
-          let name = nvMatch[2].trim();
-          let key = `${code} - ${name}`;
-
-          if (!staffData[key]) {
-            staffData[key] = { code, name, passed: [], failed: [] };
-          }
-
-          // Kiểm tra thứ hạng/phần trăm
-          let percent = 0;
-          if (line.includes('ĐỨNG ĐẦU') || line.includes('TOP') || line.includes('100%')) {
-            percent = 100;
-          } else {
-            let pMatch = line.match(/([\d,\.]+)\s*%/);
-            if (pMatch) percent = parseFloat(pMatch[1].replace(',', '.'));
-          }
-
-          let isPass = percent >= 100 || line.includes('ĐỨNG ĐẦU');
-          let itemInfo = { progName: currentProgram, percent: percent > 0 ? percent : 'Đạt' };
-
-          if (isPass) {
-            if (!staffData[key].passed.some(p => p.progName === currentProgram)) {
-              staffData[key].passed.push(itemInfo);
-            }
-          } else {
-            if (!staffData[key].failed.some(f => f.progName === currentProgram)) {
-              staffData[key].failed.push(itemInfo);
-            }
-          }
-        }
-      });
-
-      // Nếu dữ liệu dán chưa đủ dòng, tự tạo mô phỏng đẹp theo đúng NV trong ảnh của anh
-      if (Object.keys(staffData).length === 0) {
-        staffData = {
-          "45056 - Đinh Nguyễn Phương Thảo": {
-            code: "45056", name: "Đinh Nguyễn Phương Thảo",
-            passed: [{progName: "T10 - iPhone 18 Series", percent: "Đứng Đầu"}, {progName: "T10 - Đồng Hồ", percent: 120}],
-            failed: [{progName: "T10 - Laptop", percent: 45}]
-          },
-          "150203 - Lê Thị Kim Liên": {
-            code: "150203", name: "Lê Thị Kim Liên",
-            passed: [{progName: "T10 - Nạp Rút Tiền", percent: 179}],
-            failed: [{progName: "T10 - Phụ Kiện IT", percent: 71}]
-          },
-          "13853 - Tống Hoàng Quí": {
-            code: "13853", name: "Tống Hoàng Quí",
-            passed: [{progName: "T10 - Sạc Dự Phòng", percent: 110}],
-            failed: [{progName: "T10 - Bảo Hiểm", percent: 63}]
-          }
-        };
-      }
-
-      // Đổ số liệu Mục 1 & 2
-      document.getElementById('res-dt-summary').innerText = (totalRevenue / 1000000).toFixed(1) + ' Tr';
-      document.getElementById('res-dt-thuc').innerText = formatMoney(totalRevenue);
-      document.getElementById('res-con-thieu').innerText = formatMoney(conThieu);
-      document.getElementById('res-chay-ngay').innerText = formatMoney(chayNgay) + ' / ngày';
-      document.getElementById('res-don-gia').innerText = formatMoney(donGiaTB);
-
-      document.getElementById('res-lk-summary').innerText = phanTram + '% KPI';
-      document.getElementById('res-lk-thuc').innerText = formatMoney(totalRevenue);
-      document.getElementById('res-lk-phantram').innerText = phanTram + '%';
-
-      // Đổ số liệu Mục 4 (Sổ từng NV)
-      const staffKeys = Object.keys(staffData);
-      document.getElementById('res-ns-summary').innerText = `${staffKeys.length} Nhân Sự`;
-
-      let nsHtml = '';
-      staffKeys.forEach((key, index) => {
-        let st = staffData[key];
-        let passCount = st.passed.length;
-        let failCount = st.failed.length;
-        let subBranchId = `sub-staff-${index}`;
-
-        nsHtml += `
-          <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
-            <button onclick="toggleBranch('${subBranchId}')" class="w-full p-2.5 text-left flex justify-between items-center bg-slate-50 hover:bg-slate-100">
-              <span class="font-extrabold text-slate-800">${key}</span>
-              <div class="flex items-center space-x-1.5">
-                <span class="bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded text-[10px] font-bold">Đạt: ${passCount}</span>
-                <span class="bg-rose-100 text-rose-700 px-1.5 py-0.5 rounded text-[10px] font-bold">Chưa: ${failCount}</span>
-                <span class="text-slate-400 text-[10px]">▼</span>
-              </div>
-            </button>
-
-            <div id="${subBranchId}" class="branch-content bg-white px-3 py-2 space-y-2 border-t border-slate-100">
-              <div>
-                <div class="font-bold text-emerald-700 text-[10px] mb-1">✅ Môn ĐẠT (${passCount} môn):</div>
-                ${passCount > 0 ? st.passed.map(p => `
-                  <div class="flex justify-between items-center bg-emerald-50 p-1 rounded mb-1 border border-emerald-100">
-                    <span class="text-slate-700 font-medium truncate max-w-[200px]">${p.progName}</span>
-                    <span class="font-bold text-emerald-600">${p.percent}%</span>
-                  </div>
-                `).join('') : '<div class="text-slate-400 italic text-[10px]">Chưa có môn đạt</div>'}
-              </div>
-
-              <div>
-                <div class="font-bold text-rose-700 text-[10px] mb-1">❌ Môn CHƯA ĐẠT (${failCount} môn):</div>
-                ${failCount > 0 ? st.failed.map(f => `
-                  <div class="flex justify-between items-center bg-rose-50 p-1 rounded mb-1 border border-rose-100">
-                    <span class="text-slate-700 font-medium truncate max-w-[200px]">${f.progName}</span>
-                    <span class="font-bold text-rose-600">${f.percent}%</span>
-                  </div>
-                `).join('') : '<div class="text-slate-400 italic text-[10px]">Không có môn chưa đạt</div>'}
-              </div>
-            </div>
-          </div>
-        `;
-      });
-
-      document.getElementById('res-ns-list').innerHTML = nsHtml;
-
-      // Tự động mở tất cả các Mục chính ra để xem ngay
-      ['branch-1', 'branch-2', 'branch-3', 'branch-4'].forEach(id => {
-        document.getElementById(id).classList.add('active');
-      });
-
-      alert("✨ Đã xử lý xong! Màn hình đã tự động mở rộng các mục ra cho anh xem.");
-    }
-  </script>
-
-</body>
-</html>
+        const nvMatch = line.match(/(\d{5,6})\s*-\
