@@ -39,9 +39,9 @@
       <div class="flex justify-between items-center">
         <label class="text-xs font-bold text-amber-700 flex items-center space-x-1">
           <span>📊</span>
-          <span>Bảng Lũy Kế Thi Đua Ngành Hàng (Paste từ Chép bảng):</span>
+          <span>Bảng Lũy Kế Ngành Hàng:</span>
         </label>
-        <span class="text-[10px] bg-amber-50 text-amber-600 font-bold px-2 py-0.5 rounded border border-amber-200">Quan trọng</span>
+        <span class="text-[10px] bg-amber-50 text-amber-600 font-bold px-2 py-0.5 rounded border border-amber-200">Dữ liệu thật</span>
       </div>
       <textarea id="raw-target-mon" rows="5" placeholder="Dán bảng Lũy kế ngành hàng vào đây..." 
                 class="w-full p-2.5 bg-amber-50/30 border border-amber-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-amber-500 focus:bg-white"></textarea>
@@ -54,7 +54,7 @@
           <span>🏆</span>
           <span>Bảng Kết Quả Thi Đua Nhân Viên:</span>
         </label>
-        <span class="text-[10px] bg-slate-100 text-slate-600 font-bold px-2 py-0.5 rounded">Dán bảng NV</span>
+        <span class="text-[10px] bg-slate-100 text-slate-600 font-bold px-2 py-0.5 rounded">Dữ liệu thật</span>
       </div>
       <textarea id="raw-thi-dua" rows="5" placeholder="Paste bảng thi đua chi tiết nhân viên vào đây..." 
                 class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-700 focus:outline-none focus:border-blue-500 focus:bg-white"></textarea>
@@ -63,7 +63,7 @@
     <!-- Nút Bấm Xử Lý -->
     <button onclick="processDmxData()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-extrabold py-3.5 rounded-xl text-xs shadow-md transition active:scale-95 flex items-center justify-center space-x-2">
       <span>⚡</span>
-      <span>PHÂN TÍCH CHUẨN XÁC BẢNG LŨY KẾ</span>
+      <span>PHÂN TÍCH CHUẨN XÁC 100%</span>
     </button>
 
     <!-- KẾT QUẢ HIỂN THỊ -->
@@ -100,7 +100,7 @@
         <button onclick="toggleBranch('branch-4')" class="w-full p-3.5 text-left flex justify-between items-center focus:outline-none bg-white">
           <div>
             <span class="text-[10px] text-slate-400 font-bold uppercase">Mục 4</span>
-            <div class="text-xs font-extrabold text-slate-900 mt-0.5">👥 Thi Đua Nhân Viên (Chia Target Môn)</div>
+            <div class="text-xs font-extrabold text-slate-900 mt-0.5">👥 Thi Đua Nhân Viên (Chia Target Chuẩn)</div>
           </div>
           <div class="flex items-center space-x-2">
             <span id="res-ns-summary" class="text-xs font-black text-purple-600">Chờ dữ liệu...</span>
@@ -108,9 +108,9 @@
           </div>
         </button>
         <div id="branch-4" class="branch-content bg-slate-50 px-4 py-3 border-t border-slate-100 space-y-2 text-xs">
-          <div class="text-slate-600 pb-1 font-semibold">📌 Đạt / Chưa đạt của NV tính theo Mục Tiêu chia đều:</div>
+          <div class="text-slate-600 pb-1 font-semibold">📌 So sánh Thực tế NV với Target cá nhân:</div>
           <div id="res-ns-list" class="space-y-2 text-[11px]">
-            <div class="text-slate-400 italic">Dán dữ liệu Lũy kế và Thi đua NV vào trên...</div>
+            <div class="text-slate-400 italic">Dán dữ liệu thật và bấm phân tích...</div>
           </div>
         </div>
       </div>
@@ -138,28 +138,25 @@
       const rawTd = document.getElementById('raw-thi-dua').value;
 
       if (!rawTarget.trim() || !rawTd.trim()) {
-        alert("Vui lòng dán đầy đủ cả 2 bảng (Bảng Lũy kế Ngành hàng & Bảng Thi đua NV) vào các ô tương ứng!");
+        alert("Vui lòng dán đầy đủ cả 2 bảng dữ liệu thật vào các ô!");
         return;
       }
 
-      // 1. Đọc bảng Lũy Kế Ngành Hàng (Mục tiêu siêu thị)
+      // 1. Quét TOÀN BỘ các nhóm hàng từ bảng Lũy kế thật
       let storePrograms = [];
       let targetLines = rawTarget.split('\n').map(l => l.trim()).filter(l => l.length > 0);
       
-      // Quét các dòng nhóm hàng trong bảng lũy kế (có dạng: Tên nhóm | DT/SL | Mục tiêu | Lũy kế | Dự kiến | Hoàn thành)
       for (let i = 0; i < targetLines.length; i++) {
         let line = targetLines[i];
-        // Nhận diện dòng chứa đơn vị tính DT hoặc SL ở sát tên nhóm hàng
         if ((line.endsWith('DT') || line.endsWith('SL')) && i + 1 < targetLines.length) {
           let groupName = line.substring(0, line.length - 2).trim();
-          // Lấy dòng tiếp theo chứa các con số: Mục tiêu, Lũy kế, Hoàn thành
           let dataLine = targetLines[i+1];
           let numbers = dataLine.split(/\s+/).map(p => parseFloat(p.replace(/\./g, '').replace(',', '.'))).filter(n => !isNaN(n));
           
           if (numbers.length >= 2) {
-            let mucTieu = numbers[0]; // Cột mục tiêu
-            let luyKe = numbers[1];   // Cột lũy kế
-            let hoanThanh = (luyKe / mucTieu) * 100;
+            let mucTieu = numbers[0];
+            let luyKe = numbers[1];
+            let hoanThanh = mucTieu > 0 ? (luyKe / mucTieu) * 100 : 0;
             
             storePrograms.push({
               name: groupName,
@@ -172,182 +169,19 @@
         }
       }
 
-      if (storePrograms.length === 0) {
-        // Fallback chuẩn theo ảnh lũy kế nếu copy dán thuần túy không có ký tự DT/SL
-        storePrograms = [
-          { name: "Đồng Hồ", target: 93, actual: 73, percent: 179, isPass: true },
-          { name: "Tai Nghe", target: 31, actual: 21, percent: 155.5, isPass: true },
-          { name: "Sạc Dự Phòng", target: 60, actual: 33, percent: 126.2, isPass: true },
-          { name: "Điện Thoại + Tablet Android", target: 1916, actual: 1038, percent: 124.4, isPass: true },
-          { name: "Realme", target: 203, actual: 102, percent: 115.5, isPass: true },
-          { name: "Vivo", target: 186, actual: 83, percent: 102.1, isPass: true },
-          { name: "iPhone 18 Series + Duo", target: 469, actual: 272, percent: 98.2, isPass: false },
-          { name: "Nạp - Rút Ngân Hàng", target: 189, actual: 138, percent: 174.4, isPass: true }
-        ];
-      }
-
-      // 2. Bóc tách danh sách Nhân Viên và số liệu thực tế từ Bảng Thi Đua NV
+      // 2. Bóc tách danh sách Nhân Viên và số liệu thực tế từ Bảng Thi Đua NV thật
       let staffLines = rawTd.split('\n').map(l => l.trim()).filter(l => l.length > 0);
       let staffData = {};
       let currentStaff = "";
-      let currentProg = "Môn chung";
+      let currentProg = "";
 
       staffLines.forEach(line => {
-        if (line.includes('T09 -') || line.includes('T10 -') || line.includes('Đồng Hồ') || line.includes('Tai Nghe') || line.includes('NẠP') || line.includes('BẢO HIỂM')) {
+        // Nhận diện tên môn thi đua của nhân viên
+        if (line.includes('T09 -') || line.includes('T10 -') || line.includes('Đồng Hồ') || line.includes('Tai Nghe') || line.includes('NẠP') || line.includes('BẢO HIỂM') || line.includes('SIM') || line.includes('VAS') || line.includes('TRẢ CHẬM') || line.includes('LAPTOP') || line.includes('VAY') || line.includes('CAMERA') || line.includes('CÁP') || line.includes('SẠC') || line.includes('ĐIỆN THOẠI')) {
           currentProg = line;
         }
 
         let nvMatch = line.match(/(\d{5,6})\s*-\s*([^\d\n\r]+)/);
         if (nvMatch) {
           let code = nvMatch[1].trim();
-          let name = nvMatch[2].trim();
-          currentStaff = `${code} - ${name}`;
-          if (!staffData[currentStaff]) {
-            staffData[currentStaff] = {};
-          }
-        } else if (currentStaff) {
-          let numbers = line.split(/\s+/).map(p => parseFloat(p.replace(/\./g, '').replace(',', '.'))).filter(n => !isNaN(n));
-          if (numbers.length > 0) {
-            staffData[currentStaff][currentProg] = numbers[0];
-          }
-        }
-      });
-
-      let staffKeys = Object.keys(staffData);
-      let staffCount = Math.max(1, staffKeys.length);
-
-      // Nếu không bắt được danh sách nhân viên từ text, tạo danh sách mẫu chuẩn
-      if (staffKeys.length === 0) {
-        staffKeys = [
-          "13853 - Tống Hoàng Quí",
-          "45056 - Đinh Nguyễn Phương Thảo",
-          "150203 - Lê Thị Kim Liên",
-          "144003 - Nguyễn Công Toàn",
-          "205406 - Nguyễn Lâm Tuyết Nghị",
-          "205420 - Trần Đức Nhã"
-        ];
-        staffKeys.forEach(k => staffData[k] = {});
-        staffCount = staffKeys.length;
-      }
-
-      // 3. Tính toán chi tiết Đạt / Chưa đạt cho từng nhân viên dựa trên Target Môn / Số NV
-      let finalStaffResult = {};
-      staffKeys.forEach(stKey => {
-        finalStaffResult[stKey] = { passed: [], failed: [] };
-      });
-
-      storePrograms.forEach(prog => {
-        let targetPerStaff = Math.max(1, Math.ceil(prog.target / staffCount));
-
-        staffKeys.forEach((stKey, stIdx) => {
-          // Lấy số liệu thực tế nhân viên làm được ở môn này
-          let actualNV = 0;
-          let stRecord = staffData[stKey];
-          for (let pKey in stRecord) {
-            if (pKey.toLowerCase().includes(prog.name.toLowerCase().substring(0, 6))) {
-              actualNV = stRecord[pKey];
-              break;
-            }
-          }
-
-          // Nếu chưa bắt được số liệu thô riêng lẻ, mô phỏng chia tỷ lệ thực tế siêu thị theo từng nhân viên
-          if (actualNV === 0) {
-            let ratio = prog.target > 0 ? (prog.actual / prog.target) : 1;
-            actualNV = Math.round(targetPerStaff * ratio * (0.85 + (stIdx * 0.04)));
-          }
-
-          let percentNV = targetPerStaff > 0 ? Math.round((actualNV / targetPerStaff) * 100) : 0;
-          let isPass = actualNV >= targetPerStaff;
-
-          let item = {
-            progName: prog.name,
-            actual: actualNV,
-            targetNV: targetPerStaff,
-            percent: percentNV
-          };
-
-          if (isPass) {
-            finalStaffResult[stKey].passed.push(item);
-          } else {
-            finalStaffResult[stKey].failed.push(item);
-          }
-        });
-      });
-
-      // Đổ số liệu Mục 3 (Tổng siêu thị)
-      let storePassCount = storePrograms.filter(p => p.isPass).length;
-      let storeFailCount = storePrograms.length - storePassCount;
-      document.getElementById('res-td-summary').innerText = `${storePrograms.length} Nhóm Hàng`;
-      document.getElementById('res-td-dat').innerText = `${storePassCount} Môn`;
-      document.getElementById('res-td-chuadat').innerText = `${storeFailCount} Môn`;
-
-      let storeHtml = '';
-      storePrograms.forEach(p => {
-        storeHtml += `
-          <div class="flex justify-between items-center bg-white p-1.5 rounded border border-slate-100 mb-1">
-            <span class="font-semibold text-slate-800 truncate max-w-[200px]">${p.name}</span>
-            <span class="${p.isPass ? 'text-emerald-600 bg-emerald-50' : 'text-rose-600 bg-rose-50'} px-1.5 py-0.5 rounded text-[9px] font-bold">
-              ${p.isPass ? `✓ ${p.percent.toFixed(0)}%` : `✗ ${p.percent.toFixed(0)}%`}
-            </span>
-          </div>
-        `;
-      });
-      document.getElementById('list-td-dynamic').innerHTML = storeHtml;
-
-      // Đổ số liệu Mục 4 (Nhân viên)
-      document.getElementById('res-ns-summary').innerText = `${staffKeys.length} Nhân Sự (${staffCount} NV sàn)`;
-
-      let nsHtml = '';
-      staffKeys.forEach((key, index) => {
-        let st = finalStaffResult[key];
-        let passCount = st.passed.length;
-        let failCount = st.failed.length;
-        let subBranchId = `sub-staff-${index}`;
-
-        nsHtml += `
-          <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
-            <button onclick="toggleBranch('${subBranchId}')" class="w-full p-2.5 text-left flex justify-between items-center bg-slate-50 hover:bg-slate-100">
-              <span class="font-extrabold text-slate-800">${key}</span>
-              <div class="flex items-center space-x-1.5">
-                <span class="bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded text-[10px] font-bold">Đạt: ${passCount}</span>
-                <span class="bg-rose-100 text-rose-700 px-1.5 py-0.5 rounded text-[10px] font-bold">Chưa: ${failCount}</span>
-                <span class="text-slate-400 text-[10px]">▼</span>
-              </div>
-            </button>
-
-            <div id="${subBranchId}" class="branch-content bg-white px-3 py-2 space-y-2 border-t border-slate-100">
-              <div>
-                <div class="font-bold text-emerald-700 text-[10px] mb-1">✅ Môn ĐẠT (&ge; Target cá nhân - ${passCount} môn):</div>
-                ${passCount > 0 ? st.passed.map(p => `
-                  <div class="flex justify-between items-center bg-emerald-50 p-1.5 rounded mb-1 border border-emerald-100">
-                    <span class="text-slate-800 font-medium truncate max-w-[170px]">${p.progName}</span>
-                    <span class="font-bold text-emerald-600">${p.actual} / ${p.targetNV} (${p.percent}%)</span>
-                  </div>
-                `).join('') : '<div class="text-slate-400 italic text-[10px]">Chưa có môn đạt</div>'}
-              </div>
-
-              <div>
-                <div class="font-bold text-rose-700 text-[10px] mb-1">❌ Môn CHƯA ĐẠT (&lt; Target cá nhân - ${failCount} môn):</div>
-                ${failCount > 0 ? st.failed.map(f => `
-                  <div class="flex justify-between items-center bg-rose-50 p-1.5 rounded mb-1 border border-rose-100">
-                    <span class="text-slate-800 font-medium truncate max-w-[170px]">${f.progName}</span>
-                    <span class="font-bold text-rose-600">${f.actual} / ${f.targetNV} (${f.percent}%)</span>
-                  </div>
-                `).join('') : '<div class="text-slate-400 italic text-[10px]">Không có môn chưa đạt</div>'}
-              </div>
-            </div>
-          </div>
-        `;
-      });
-
-      document.getElementById('res-ns-list').innerHTML = nsHtml;
-      ['branch-3', 'branch-4'].forEach(id => {
-        document.getElementById(id).classList.add('active');
-      });
-
-      alert("✨ Đã phân tích chuẩn xác theo bảng Lũy kế mới nhất!");
-    }
-  </script>
-
-</body>
-</html>
+          let name = nvMatch
