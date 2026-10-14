@@ -12,7 +12,7 @@
     .branch-content { display: none; }
     .branch-content.active { display: block; }
     .rotate-icon { transition: transform 0.2s ease; }
-    .rotate-icon.active { transition: transform 0.18s ease; }
+    .rotate-icon.active { transform: rotate(180deg); }
   </style>
 </head>
 <body class="text-slate-800 min-h-screen flex flex-col justify-between p-3.5 max-w-md mx-auto">
@@ -56,7 +56,7 @@
     <!-- NÚT PHÂN TÍCH -->
     <button onclick="processNvData()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-3.5 rounded-xl text-xs shadow-md active:scale-98 transition flex items-center justify-center space-x-2">
       <span>⚡</span>
-      <span>PHÂN TÍCH CHUẨN XÁC 100%</span>
+      <span>PHÂN TÍCH SỐ CHẠY CHUẨN XÁC</span>
     </button>
 
     <!-- KẾT QUẢ -->
@@ -87,9 +87,20 @@
       if (icon) icon.classList.toggle('active');
     }
 
+    // Hàm xử lý đồng nhất dấu chấm và dấu phẩy
     function parseNum(str) {
       if (!str) return 0;
-      let clean = str.replace(/\./g, '').replace(',', '.');
+      let clean = str.trim();
+      // Nếu chuỗi chứa cả dấu chấm và dấu phẩy (vd: 1.584.674,87)
+      if (clean.includes('.') && clean.includes(',')) {
+        clean = clean.replace(/\./g, '').replace(',', '.');
+      } else if (clean.includes(',')) {
+        // Chỉ chứa dấu phẩy (vd: 318,77) -> đổi thành dấu chấm thập phân
+        clean = clean.replace(',', '.');
+      } else if (clean.split('.').length > 2) {
+        // Nhiều dấu chấm (vd: 533.178.35) -> bỏ dấu chấm
+        clean = clean.replace(/\./g, '');
+      }
       let val = parseFloat(clean);
       return isNaN(val) ? 0 : val;
     }
@@ -113,13 +124,12 @@
         if (l.startsWith('T09 -') || l.startsWith('T10 -') || l.startsWith('TRẢ LỰC')) {
           curStMon = l;
         } else if (curStMon && l.includes('Phú Quới')) {
-          // Lấy đúng dòng số liệu ngay sau dòng chứa chữ Phú Quới
           if (i + 1 < stLines.length) {
             let dataLine = stLines[i+1];
             let parts = dataLine.split(/\s+/);
             let numbers = parts.map(p => parseNum(p)).filter(n => n > 0);
             if (numbers.length >= 2) {
-              storeTargetDict[curStMon.toLowerCase().trim()] = numbers[1]; // Con số thứ 2 là Mục tiêu Phú Quới
+              storeTargetDict[curStMon.toLowerCase().trim()] = numbers[1];
               curStMon = "";
             }
           }
@@ -150,7 +160,7 @@
             let nextLine = lines[i+1];
             let parts = nextLine.split(/\s+/);
             let val = parseNum(parts[0]);
-            if (parts[0] && parts[0].match(/^\d+[\d,.]*$/)) {
+            if (parts[0] && parts[0].match(/^[\d,.]+$/)) {
               staffData[key].nvProgs[currentProgram] = val;
             }
           }
@@ -167,7 +177,7 @@
 
       document.getElementById('total-nv-count').innerText = `${staffKeys.length} Nhân sự`;
 
-      // 3. TÍNH TARGET CÁ NHÂN CHUẨN: Target Siêu Thị Phú Quới ÷ Số NV sàn
+      // 3. TÍNH TARGET CÁ NHÂN CHUẨN XÁC
       let nsHtml = '';
       staffKeys.forEach((key, index) => {
         let st = staffData[key];
@@ -189,7 +199,6 @@
             }
           }
 
-          // Chia đều Target Siêu thị cho số nhân viên thực tế trên sàn
           let targetNV = Number((stTargetVal / staffCount).toFixed(2));
           if (targetNV <= 0) targetNV = 1;
 
@@ -248,7 +257,7 @@
       });
 
       document.getElementById('res-ns-list').innerHTML = nsHtml;
-      alert("✨ Đã khắc phục triệt để lỗi tính sai Target!");
+      alert("✨ Đã đồng nhất dấu chấm và dấu phẩy thành công!");
     }
   </script>
 
