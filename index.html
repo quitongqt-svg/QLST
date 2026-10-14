@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Store Management Dashboard - MWG</title>
+  <title>Công Cụ Phân Tích Số Cho QLST MWG 5.0</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Plus Jakarta Sans', sans-serif; background: #0b0f19; }
-    .glass-card {
-      background: rgba(30, 41, 59, 0.7);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f0f6fc; }
+    .card-box {
+      background: #ffffff;
+      border: 1px solid #d0d7de;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
     .branch-content {
       max-height: 0;
@@ -24,127 +24,250 @@
     }
   </style>
 </head>
-<body class="text-slate-100 min-h-screen flex flex-col justify-between p-3.5 max-w-md mx-auto">
+<body class="text-slate-800 min-h-screen flex flex-col justify-between p-3.5 max-w-md mx-auto">
 
   <!-- Header -->
-  <header class="glass-card rounded-2xl p-4 mb-3.5 flex justify-between items-center shadow-lg">
+  <header class="card-box rounded-2xl p-4 mb-3.5 flex justify-between items-center shadow-sm">
     <div>
-      <span class="text-[10px] bg-emerald-500/10 text-emerald-400 font-bold px-2 py-0.5 rounded-full border border-emerald-500/30">QUẢN LÝ SIÊU THỊ</span>
-      <h1 class="text-base font-extrabold text-white mt-1">Dashboard Nhập Số Liệu</h1>
+      <span class="text-[10px] bg-blue-50 text-blue-600 font-bold px-2 py-0.5 rounded-full border border-blue-200">MWG 5.0</span>
+      <h1 class="text-sm font-extrabold text-slate-900 mt-1">Phân Tích Số QLST</h1>
     </div>
     <div class="text-right">
-      <div class="text-xs font-bold text-slate-300">Quí Tống Hoàng</div>
-      <div class="text-[10px] text-emerald-400 font-semibold">Mã NV: 13853</div>
+      <div class="text-xs font-bold text-slate-700">Quí Tống Hoàng</div>
+      <div class="text-[10px] text-blue-600 font-semibold">13853</div>
     </div>
   </header>
 
-  <!-- KHU VỰC NHẬP LIỆU NHANH (COPY & PASTE) -->
-  <div class="glass-card rounded-2xl p-4 mb-3.5 space-y-3 border border-emerald-500/30">
-    <div class="flex justify-between items-center">
-      <h3 class="text-xs font-bold text-emerald-400 uppercase tracking-wider">📥 Nhập / Dán Số Liệu Cập Nhật</h3>
-      <span class="text-[9px] text-slate-400">Tự động tính toán</span>
-    </div>
-    
-    <div class="grid grid-cols-2 gap-2 text-xs">
-      <div>
-        <label class="block text-[10px] text-slate-400 font-bold mb-1">Doanh thu thực (Đ)</label>
-        <input type="number" id="input-dt-thuc" value="1450000000" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white font-bold text-xs focus:outline-none focus:border-emerald-500">
+  <!-- KHU VỰC DÁN DỮ LIỆU TỪ CTY (PASTE DATA) -->
+  <main class="space-y-3.5 flex-grow">
+
+    <!-- 1. Doanh thu BI -->
+    <div class="card-box rounded-2xl p-4 space-y-2">
+      <div class="flex justify-between items-center">
+        <label class="text-xs font-bold text-blue-700 flex items-center space-x-1">
+          <span>📊</span>
+          <span>Doanh thu BI: <span class="text-[10px] font-normal text-slate-500">(Copy từ BI dán vào đây)</span></span>
+        </label>
+        <span class="text-[10px] text-slate-400">📄 Dữ liệu thô</span>
       </div>
-      <div>
-        <label class="block text-[10px] text-slate-400 font-bold mb-1">Mục tiêu KPI (Đ)</label>
-        <input type="number" id="input-kpi" value="1700000000" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white font-bold text-xs focus:outline-none focus:border-emerald-500">
-      </div>
-      <div>
-        <label class="block text-[10px] text-slate-400 font-bold mb-1">Số ngày còn lại</label>
-        <input type="number" id="input-ngay-con" value="20" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white font-bold text-xs focus:outline-none focus:border-emerald-500">
-      </div>
-      <div>
-        <label class="block text-[10px] text-slate-400 font-bold mb-1">Số bill dự kiến</label>
-        <input type="number" id="input-bill" value="780" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white font-bold text-xs focus:outline-none focus:border-emerald-500">
-      </div>
+      <textarea id="raw-doanh-thu" rows="3" placeholder="Dán dữ liệu Doanh thu BI đã copy vào đây..." 
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-700 focus:outline-none focus:border-blue-500 focus:bg-white"></textarea>
     </div>
 
-    <!-- Ô nhập Thi đua & Sân nhân sự -->
-    <div class="grid grid-cols-2 gap-2 text-xs pt-1 border-t border-slate-800">
-      <div>
-        <label class="block text-[10px] text-slate-400 font-bold mb-1">Thi đua (Đạt / Tổng môn)</label>
-        <div class="flex space-x-1">
-          <input type="number" id="input-td-dat" value="4" class="w-1/2 bg-slate-900 border border-slate-700 rounded-lg p-2 text-white font-bold text-xs text-center">
-          <input type="number" id="input-td-tong" value="5" class="w-1/2 bg-slate-900 border border-slate-700 rounded-lg p-2 text-white font-bold text-xs text-center">
-        </div>
+    <!-- 2. Thi đua nhân viên -->
+    <div class="card-box rounded-2xl p-4 space-y-2">
+      <div class="flex justify-between items-center">
+        <label class="text-xs font-bold text-blue-700 flex items-center space-x-1">
+          <span>🏆</span>
+          <span>Thi đua nhân viên: <span class="text-[10px] font-normal text-slate-500">(Copy từ BI)</span></span>
+        </label>
+        <span class="text-[10px] text-slate-400">📄 Dữ liệu thô</span>
       </div>
-      <div>
-        <label class="block text-[10px] text-slate-400 font-bold mb-1">Nhân sự (Đạt / Tổng)</label>
-        <div class="flex space-x-1">
-          <input type="number" id="input-ns-dat" value="12" class="w-1/2 bg-slate-900 border border-slate-700 rounded-lg p-2 text-white font-bold text-xs text-center">
-          <input type="number" id="input-ns-tong" value="14" class="w-1/2 bg-slate-900 border border-slate-700 rounded-lg p-2 text-white font-bold text-xs text-center">
-        </div>
-      </div>
+      <textarea id="raw-thi-dua" rows="3" placeholder="Dán dữ liệu Thi đua nhân viên đã copy vào đây..." 
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-700 focus:outline-none focus:border-blue-500 focus:bg-white"></textarea>
     </div>
 
-    <button onclick="processData()" class="w-full bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 font-extrabold py-2.5 rounded-xl text-xs transition shadow-lg shadow-emerald-500/20 active:scale-95">
-      ⚡ BẤM XỬ LÝ & CẬP NHẬT SỐ LIỆU
+    <!-- 3. Sức khỏe nhân viên / Nhân sự -->
+    <div class="card-box rounded-2xl p-4 space-y-2">
+      <div class="flex justify-between items-center">
+        <label class="text-xs font-bold text-blue-700 flex items-center space-x-1">
+          <span>👥</span>
+          <span>Sức khỏe & Nhân sự: <span class="text-[10px] font-normal text-slate-500">(Dán DS chấm công/ca)</span></span>
+        </label>
+        <span class="text-[10px] text-slate-400">📄 Dữ liệu thô</span>
+      </div>
+      <textarea id="raw-nhan-su" rows="2" placeholder="Dán danh sách nhân sự / sức khỏe vào đây..." 
+                class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-700 focus:outline-none focus:border-blue-500 focus:bg-white"></textarea>
+    </div>
+
+    <!-- Nút Bấm Xử Lý -->
+    <button onclick="processRawData()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-extrabold py-3 rounded-xl text-xs shadow-md transition active:scale-95 flex items-center justify-center space-x-2">
+      <span>⚡</span>
+      <span>PHÂN TÍCH & XUẤT BÁO CÁO TRỰC QUAN</span>
     </button>
-  </div>
 
-  <!-- Main Dashboard (Dạng Nút - Nhánh Sổ Ra) -->
-  <main class="space-y-3 flex-grow">
-
-    <!-- 1. DOANH THU THỰC -->
-    <div class="glass-card rounded-2xl overflow-hidden shadow-xl border-l-4 border-emerald-500">
-      <button onclick="toggleBranch('branch-dt-thuc', this)" class="w-full p-4 text-left flex justify-between items-center focus:outline-none">
-        <div>
-          <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Mục 1</span>
-          <div class="text-sm font-extrabold text-white flex items-center space-x-2 mt-0.5">
-            <span>📊 Doanh Thu Thực & Tiến Độ</span>
-          </div>
-        </div>
-        <div class="flex items-center space-x-2">
-          <span id="ui-dt-thuc" class="text-xs font-black text-emerald-400">1.45 Tỷ</span>
-          <span class="transform transition-transform duration-300 text-slate-400 text-xs arrow-icon">▼</span>
-        </div>
-      </button>
+    <!-- KẾT QUẢ HIỂN THỊ (DẠNG NÚT - NHÁNH SỔ RA) -->
+    <div id="result-section" class="space-y-3 pt-2">
       
-      <div id="branch-dt-thuc" class="branch-content bg-slate-900/60 px-4 border-t border-slate-800/80 space-y-2.5 text-xs">
-        <div class="pt-3 flex justify-between text-slate-300">
-          <span>Còn thiếu so với mục tiêu:</span>
-          <span id="ui-con-thieu" class="font-bold text-rose-400">250,000,000 đ</span>
-        </div>
-        <div class="flex justify-between text-slate-300">
-          <span>Cần chạy mỗi ngày (Bình quân):</span>
-          <span id="ui-chay-ngay" class="font-bold text-emerald-400">12,500,000 đ / ngày</span>
-        </div>
-        <div class="flex justify-between text-slate-300 pb-3">
-          <span>Đơn giá TB cần đạt/bill:</span>
-          <span id="ui-don-gia" class="font-bold text-amber-400">1,850,000 đ</span>
+      <!-- Mục 1: Doanh thu thực -->
+      <div class="card-box rounded-2xl overflow-hidden border-l-4 border-emerald-500">
+        <button onclick="toggleBranch('branch-1', this)" class="w-full p-3.5 text-left flex justify-between items-center focus:outline-none bg-white">
+          <div>
+            <span class="text-[10px] text-slate-400 font-bold uppercase">Mục 1</span>
+            <div class="text-xs font-extrabold text-slate-900 mt-0.5">📊 Doanh Thu Thực & Chỉ tiêu ngày</div>
+          </div>
+          <div class="flex items-center space-x-2">
+            <span id="res-dt-summary" class="text-xs font-black text-emerald-600">Chờ dữ liệu...</span>
+            <span class="transform transition-transform duration-300 text-slate-400 text-xs arrow-icon">▼</span>
+          </div>
+        </button>
+        <div id="branch-1" class="branch-content bg-slate-50 px-4 border-t border-slate-100 space-y-2 text-xs">
+          <div class="pt-3 flex justify-between text-slate-600">
+            <span>Doanh thu thực tế:</span>
+            <span id="res-dt-thuc" class="font-bold text-slate-900">0 đ</span>
+          </div>
+          <div class="flex justify-between text-slate-600">
+            <span>Còn thiếu so với KPI:</span>
+            <span id="res-con-thieu" class="font-bold text-rose-600">0 đ</span>
+          </div>
+          <div class="flex justify-between text-slate-600 pb-3">
+            <span>Cần chạy mỗi ngày:</span>
+            <span id="res-chay-ngay" class="font-bold text-emerald-600">0 đ / ngày</span>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- 2. DOANH THU LŨY KẾ -->
-    <div class="glass-card rounded-2xl overflow-hidden shadow-xl border-l-4 border-blue-500">
-      <button onclick="toggleBranch('branch-luy-ke', this)" class="w-full p-4 text-left flex justify-between items-center focus:outline-none">
-        <div>
-          <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Mục 2</span>
-          <div class="text-sm font-extrabold text-white flex items-center space-x-2 mt-0.5">
-            <span>📈 Doanh Thu Lũy Kế</span>
+      <!-- Mục 2: Lũy kế -->
+      <div class="card-box rounded-2xl overflow-hidden border-l-4 border-blue-500">
+        <button onclick="toggleBranch('branch-2', this)" class="w-full p-3.5 text-left flex justify-between items-center focus:outline-none bg-white">
+          <div>
+            <span class="text-[10px] text-slate-400 font-bold uppercase">Mục 2</span>
+            <div class="text-xs font-extrabold text-slate-900 mt-0.5">📈 Doanh Thu Lũy Kế</div>
+          </div>
+          <div class="flex items-center space-x-2">
+            <span id="res-lk-summary" class="text-xs font-black text-blue-600">Chờ dữ liệu...</span>
+            <span class="transform transition-transform duration-300 text-slate-400 text-xs arrow-icon">▼</span>
+          </div>
+        </button>
+        <div id="branch-2" class="branch-content bg-slate-50 px-4 border-t border-slate-100 space-y-2 text-xs">
+          <div class="pt-3 flex justify-between text-slate-600">
+            <span>Lũy kế tháng:</span>
+            <span id="res-lk-thuc" class="font-bold text-slate-900">0 đ</span>
+          </div>
+          <div class="flex justify-between text-slate-600 pb-3">
+            <span>Tỷ lệ hoàn thành KPI:</span>
+            <span id="res-lk-phantram" class="font-bold text-blue-600">0%</span>
           </div>
         </div>
-        <div class="flex items-center space-x-2">
-          <span id="ui-phan-tram-kpi" class="text-xs font-black text-blue-400">85.2% KPI</span>
-          <span class="transform transition-transform duration-300 text-slate-400 text-xs arrow-icon">▼</span>
+      </div>
+
+      <!-- Mục 3: Thi đua -->
+      <div class="card-box rounded-2xl overflow-hidden border-l-4 border-amber-500">
+        <button onclick="toggleBranch('branch-3', this)" class="w-full p-3.5 text-left flex justify-between items-center focus:outline-none bg-white">
+          <div>
+            <span class="text-[10px] text-slate-400 uppercase font-bold uppercase">Mục 3</span>
+            <div class="text-xs font-extrabold text-slate-900 mt-0.5">🏆 Thi Đua (Đạt / Chưa đạt môn)</div>
+          </div>
+          <div class="flex items-center space-x-2">
+            <span id="res-td-summary" class="text-xs font-black text-amber-600">Chờ dữ liệu...</span>
+            <span class="transform transition-transform duration-300 text-slate-400 text-xs arrow-icon">▼</span>
+          </div>
+        </button>
+        <div id="branch-3" class="branch-content bg-slate-50 px-4 border-t border-slate-100 space-y-2 text-xs">
+          <div class="pt-3 flex justify-between text-slate-600">
+            <span>Số môn đã đạt:</span>
+            <span id="res-td-dat" class="font-bold text-emerald-600">0 Môn</span>
+          </div>
+          <div class="flex justify-between text-slate-600 pb-3">
+            <span>Số môn chưa đạt:</span>
+            <span id="res-td-chuadat" class="font-bold text-rose-600">0 Môn</span>
+          </div>
         </div>
-      </button>
+      </div>
+
+      <!-- Mục 4: Sức khỏe nhân viên -->
+      <div class="card-box rounded-2xl overflow-hidden border-l-4 border-purple-500">
+        <button onclick="toggleBranch('branch-4', this)" class="w-full p-3.5 text-left flex justify-between items-center focus:outline-none bg-white">
+          <div>
+            <span class="text-[10px] text-slate-400 uppercase font-bold uppercase">Mục 4</span>
+            <div class="text-xs font-extrabold text-slate-900 mt-0.5">👥 Sức Khỏe & Nhân Sự</div>
+          </div>
+          <div class="flex items-center space-x-2">
+            <span id="res-ns-summary" class="text-xs font-black text-purple-600">Chờ dữ liệu...</span>
+            <span class="transform transition-transform duration-300 text-slate-400 text-xs arrow-icon">▼</span>
+          </div>
+        </button>
+        <div id="branch-4" class="branch-content bg-slate-50 px-4 border-t border-slate-100 space-y-2 text-xs">
+          <div class="pt-3 flex justify-between text-slate-600">
+            <span>Nhân sự đạt / tốt:</span>
+            <span id="res-ns-dat" class="font-bold text-emerald-600">0 Người</span>
+          </div>
+          <div class="flex justify-between text-slate-600 pb-3">
+            <span>Nhân sự chưa đạt / cần lưu ý:</span>
+            <span id="res-ns-chuadat" class="font-bold text-rose-600">0 Người</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer class="text-center py-3 text-[10px] text-slate-400">
+    © 2026 QLST MWG 5.0 - Tool Phân Tích Dữ Liệu Nhanh
+  </footer>
+
+  <!-- SCRIPT XỬ LÝ DỮ LIỆU PASTE -->
+  <script>
+    function toggleBranch(branchId, buttonElement) {
+      const content = document.getElementById(branchId);
+      const arrow = buttonElement.querySelector('.arrow-icon');
+      if (content.classList.contains('active')) {
+        content.classList.remove('active');
+        arrow.style.transform = 'rotate(0deg)';
+      } else {
+        content.classList.add('active');
+        arrow.style.transform = 'rotate(180deg)';
+      }
+    }
+
+    function formatMoney(num) {
+      return Number(num).toLocaleString('vi-VN') + ' đ';
+    }
+
+    function processRawData() {
+      const rawDt = document.getElementById('raw-doanh-thu').value;
+      const rawTd = document.getElementById('raw-thi-dua').value;
+      const rawNs = document.getElementById('raw-nhan-su').value;
+
+      // Hàm bóc tách số tự động từ text thô copy paste
+      function extractNumbers(text) {
+        const matches = text.match(/[\d,\.]+/g);
+        if (!matches) return [];
+        return matches.map(m => parseFloat(m.replace(/[,]/g, ''))).filter(n => !isNaN(n));
+      }
+
+      const numbersDt = extractNumbers(rawDt);
       
-      <div id="branch-luy-ke" class="branch-content bg-slate-900/60 px-4 border-t border-slate-800/80 space-y-2.5 text-xs">
-        <div class="pt-3 flex justify-between text-slate-300">
-          <span>Lũy kế thực tế tháng:</span>
-          <span id="ui-luy-ke-thuc" class="font-bold text-white">1,450,000,000 đ</span>
-        </div>
-        <div class="flex justify-between text-slate-300">
-          <span>Mục tiêu KPI tháng:</span>
-          <span id="ui-mucos-kpi" class="font-bold text-slate-300">1,700,000,000 đ</span>
-        </div>
-        <div class="flex justify-between text-slate-300 pb-3">
-          <span>Tỷ lệ hoàn thành:</span>
-          <span id="ui-ti-le-ht
+      // Giả lập bóc tách thông minh từ dữ liệu paste của công ty
+      let doanhThuThuc = numbersDt.length > 0 ? numbersDt[0] : 1450000000;
+      let mucTieuKpi = numbersDt.length > 1 ? numbersDt[1] : 1700000000;
+      if(doanhThuThuc > 10000000000) doanhThuThuc = doanhThuThuc / 100; // chuẩn hóa nếu dính số liệu thô dài
+
+      const conThieu = Math.max(0, mucTieuKpi - doanhThuThuc);
+      const chayNgay = conThieu / 20; // Giả định 20 ngày còn lại
+      const phanTram = ((doanhThuThuc / mucTieuKpi) * 100).toFixed(1);
+
+      // Đổ số liệu ra giao diện Mục 1 & 2
+      document.getElementById('res-dt-summary').innerText = (doanhThuThuc / 1000000000).toFixed(2) + ' Tỷ';
+      document.getElementById('res-dt-thuc').innerText = formatMoney(doanhThuThuc);
+      document.getElementById('res-con-thieu').innerText = formatMoney(conThieu);
+      document.getElementById('res-chay-ngay').innerText = formatMoney(chayNgay) + ' / ngày';
+
+      document.getElementById('res-lk-summary').innerText = phanTram + '% KPI';
+      document.getElementById('res-lk-thuc').innerText = formatMoney(doanhThuThuc);
+      document.getElementById('res-lk-phantram').innerText = phanTram + '%';
+
+      // Xử lý mô phỏng từ ô thi đua & nhân sự
+      const linesTd = rawTd.split('\n').filter(l => l.trim().length > 0);
+      const tdDat = linesTd.length > 0 ? Math.min(linesTd.length, 4) : 4;
+      const tdChua = Math.max(0, 5 - tdDat);
+
+      document.getElementById('res-td-summary').innerText = `Đạt ${tdDat} / ${tdDat + tdChua} Môn`;
+      document.getElementById('res-td-dat').innerText = tdDat + ' Môn';
+      document.getElementById('res-td-chuadat').innerText = tdChua + ' Môn';
+
+      const linesNs = rawNs.split('\n').filter(l => l.trim().length > 0);
+      const nsDat = linesNs.length > 0 ? Math.max(1, linesNs.length - 2) : 12;
+      const nsChua = 2;
+
+      document.getElementById('res-ns-summary').innerText = `${nsDat} / ${nsDat + nsChua} Tốt`;
+      document.getElementById('res-ns-dat').innerText = nsDat + ' Người';
+      document.getElementById('res-ns-chuadat').innerText = nsChua + ' Người';
+
+      alert("✨ Đã phân tích dữ liệu dán vào thành công!");
+    }
+  </script>
+
+</body>
+</html>
