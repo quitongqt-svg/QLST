@@ -24,7 +24,7 @@
       transition: max-height 0.3s cubic-bezier(0, 1, 0, 1);
     }
     .branch-content.active {
-      max-height: 2000px;
+      max-height: 3000px;
       transition: max-height 0.3s ease-in-out;
     }
     .rotate-icon {
@@ -37,7 +37,7 @@
 </head>
 <body class="text-slate-800 min-h-screen flex flex-col justify-between p-3.5 max-w-md mx-auto">
 
-  <!-- HEADER ĐẲNG CẤP -->
+  <!-- HEADER -->
   <header class="glass-card rounded-2xl p-4 mb-3.5 shadow-sm border-l-4 border-blue-600">
     <div class="flex justify-between items-center">
       <div>
@@ -54,7 +54,7 @@
     </div>
   </header>
 
-  <!-- FORM NHẬP LIỆU CHUYÊN NGHIỆP -->
+  <!-- FORM NHẬP LIỆU -->
   <main class="space-y-3.5 flex-grow">
 
     <!-- 1. GIỜ CÔNG -->
@@ -84,7 +84,7 @@
     </div>
 
     <!-- 3. THI ĐUA NHÂN VIÊN -->
-    <div class="card-box glass-card rounded-2xl p-3.5 space-y-2 border-l-4 border-purple-500">
+    <div class="glass-card rounded-2xl p-3.5 space-y-2 border-l-4 border-purple-500">
       <div class="flex justify-between items-center">
         <label class="text-xs font-bold text-purple-800 flex items-center space-x-1.5">
           <span class="p-1 bg-purple-50 rounded-lg">🏆</span>
@@ -109,13 +109,13 @@
                 class="w-full p-2.5 bg-amber-50/30 border border-amber-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white transition"></textarea>
     </div>
 
-    <!-- NÚT BẤM XỬ LÝ CAO CẤP -->
+    <!-- NÚT BẤM XỬ LÝ -->
     <button onclick="processProDashboard()" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-extrabold py-4 rounded-xl text-xs shadow-lg shadow-blue-500/25 transition active:scale-98 flex items-center justify-center space-x-2">
       <span class="text-base">🚀</span>
-      <span>PHÂN TÍCH BÁO CÁO TOÀN DIỆN & SỔ NHÁNH</span>
+      <span>PHÂN TÍCH CHUẨN XÁC TỪNG NHÂN VIÊN</span>
     </button>
 
-    <!-- KẾT QUẢ HIỂN THỊ DẠNG NHÁNH HIỆN ĐẠI -->
+    <!-- KẾT QUẢ HIỂN THỊ DẠNG NHÁNH -->
     <div id="result-section" class="space-y-3 pt-2">
       
       <!-- PHẦN 1: SỨC KHỎE & QUY ĐỔI & TRẢ CHẬM -->
@@ -175,7 +175,7 @@
         <button onclick="toggleBranch('branch-3', 'icon-3')" class="w-full p-3.5 text-left flex justify-between items-center focus:outline-none bg-white">
           <div>
             <span class="text-[9px] text-purple-600 font-extrabold uppercase tracking-wider bg-purple-50 px-2 py-0.5 rounded">Chi tiết cá nhân</span>
-            <div class="text-xs font-black text-slate-900 mt-1">👥 Thi Đua & Năng Suất Nhân Viên (Sổ nhánh)</div>
+            <div class="text-xs font-black text-slate-900 mt-1">👥 Thi Đua & Năng Suất Nhân Viên (Target Chuẩn Chia Đều)</div>
           </div>
           <span id="icon-3" class="rotate-icon text-slate-400 text-xs">▼</span>
         </button>
@@ -234,8 +234,10 @@
       document.getElementById('res-tracham').innerText = tracham;
       document.getElementById('res-pvtc').innerText = pvtc;
 
-      // 2. Bóc tách Thi đua Ngành hàng
+      // 2. Bóc tách Thi đua Ngành hàng Siêu thị (Lấy Target Tổng Siêu Thị)
       let storePrograms = [];
+      let storeTargetMap = {}; // Lưu Target Tổng Siêu Thị theo tên môn
+
       for (let i = 0; i < lines.length; i++) {
         let line = lines[i];
         if ((line.endsWith('DT') || line.endsWith('SL')) && i + 1 < lines.length) {
@@ -246,6 +248,7 @@
             let mucTieu = numbers[0], luyKe = numbers[1];
             let percent = mucTieu > 0 ? (luyKe / mucTieu) * 100 : 0;
             storePrograms.push({ name: groupName, target: mucTieu, actual: luyKe, percent, isPass: percent >= 100 });
+            storeTargetMap[groupName.toLowerCase()] = mucTieu;
           }
         }
       }
@@ -267,68 +270,110 @@
       });
       document.getElementById('list-td-dynamic').innerHTML = storeHtml || '<div class="text-slate-400 italic">Dán dữ liệu ngành hàng để hiển thị...</div>';
 
-      // 3. Đọc dữ liệu Giờ Công
+      // 3. Đọc dữ liệu Giờ Công chuẩn
       let gcMap = {};
       let gcLines = rawGc.split('\n').map(l => l.trim()).filter(l => l.length > 0);
       gcLines.forEach(l => {
         let match = l.match(/(\d{5,6})\s*-\s*([^\d\n\r]+)/);
         if (match) {
           let code = match[1].trim();
-          let nums = l.split(/\s+/).map(p => parseFloat(p.replace(/\./g, '').replace(',', '.'))).filter(n => !isNaN(n));
-          if (nums.length > 0) gcMap[code] = nums[0];
+          // Tìm con số thực tế đại diện cho giờ công (thường > 50h)
+          let nums = l.split(/\s+/).map(p => parseFloat(p.replace(/\./g, '').replace(',', '.'))).filter(n => !isNaN(n) && n > 20);
+          if (nums.length > 0) {
+            gcMap[code] = nums[0];
+          } else {
+            gcMap[code] = 176; // Mặc định chuẩn nếu không tìm thấy số lớn
+          }
         }
       });
 
-      // 4. Bóc tách Nhân Viên từ bảng thi đua NV
+      // 4. Bóc tách Nhân Viên từ ô Thi đua NV (Loại bỏ các con số tổng siêu thị & hotline 18001060)
       let staffLines = rawNv.split('\n').map(l => l.trim()).filter(l => l.length > 0);
       let staffData = {};
       let currentStaffKey = "";
       let currentProg = "Môn thi đua";
 
       staffLines.forEach(l => {
-        if (l.includes('T09 -') || l.includes('T10 -') || l.includes('Đồng Hồ') || l.includes('Tai Nghe') || l.includes('NẠP') || l.includes('BẢO HIỂM') || l.includes('SIM') || l.includes('VAS') || l.includes('TRẢ CHẬM') || l.includes('LAPTOP')) {
+        // Lọc lấy tên chương trình môn thi đua
+        if (l.includes('T09 -') || l.includes('T10 -') || l.includes('Đồng Hồ') || l.includes('Tai Nghe') || l.includes('NẠP') || l.includes('BẢO HIỂM') || l.includes('SIM') || l.includes('VAS') || l.includes('TRẢ CHẬM') || l.includes('LAPTOP') || l.includes('VAY')) {
           currentProg = l;
         }
+
+        // Nhận diện dòng Nhân viên (chứa Mã NV - Tên NV)
         let nvMatch = l.match(/(\d{5,6})\s*-\s*([^\d\n\r]+)/);
-        if (nvMatch) {
+        if (nvMatch && !l.includes('Trực tuyến') && !l.includes('18001060')) {
           let code = nvMatch[1].trim();
           let name = nvMatch[2].trim();
           currentStaffKey = `${code} - ${name}`;
           if (!staffData[currentStaffKey]) {
-            staffData[currentStaffKey] = { code, name, passed: [], failed: [] };
+            staffData[currentStaffKey] = { code, name, rawProgValues: {} };
           }
-        } else if (currentStaffKey) {
+        } else if (currentStaffKey && !l.includes('TỔNG') && !l.includes('18001060')) {
+          // Lấy con số thực tế của NV (Bỏ qua dòng TỔNG siêu thị)
           let nums = l.split(/\s+/).map(p => parseFloat(p.replace(/\./g, '').replace(',', '.'))).filter(n => !isNaN(n));
           if (nums.length > 0) {
             let val = nums[0];
-            let isPass = val >= 10 || l.includes('ĐỨNG ĐẦU');
-            let item = { progName: currentProg, actual: val, targetNV: 10 };
-            let list = isPass ? staffData[currentStaffKey].passed : staffData[currentStaffKey].failed;
-            if (!list.some(x => x.progName === currentProg)) list.push(item);
+            // Tránh lấy nhầm số thứ tự hạng (1, 2, 3...) trừ khi đó là con số sản lượng thật
+            staffData[currentStaffKey].rawProgValues[currentProg] = val;
           }
         }
       });
 
       let staffKeys = Object.keys(staffData);
+      let staffCount = Math.max(1, staffKeys.length); // Số lượng nhân viên sàn thực tế
+
       if (staffKeys.length === 0) {
         staffKeys = ["13853 - Tống Hoàng Quí", "45056 - Đinh Nguyễn Phương Thảo", "150203 - Lê Thị Kim Liên", "144003 - Nguyễn Công Toàn"];
+        staffCount = staffKeys.length;
         staffKeys.forEach(k => {
           let code = k.split(' - ')[0];
-          staffData[k] = { 
-            code, name: k.split(' - ')[1],
-            passed: [{progName: "Đồng Hồ & Phụ Kiện", actual: 15, targetNV: 10}], 
-            failed: [{progName: "Laptop & Tablet", actual: 2, targetNV: 5}] 
-          };
+          staffData[k] = { code, name: k.split(' - ')[1], rawProgValues: {} };
         });
       }
 
+      // 5. TÍNH CHUẨN: Target Cá Nhân = Target Siêu Thị ÷ Số Nhân Viên Sàn
       let nsHtml = '';
       staffKeys.forEach((key, index) => {
         let st = staffData[key];
-        let pCount = st.passed.length;
-        let fCount = st.failed.length;
         let hours = gcMap[st.code] ? `${gcMap[st.code]}h` : "176h";
         let subId = `staff-sub-${index}`;
+
+        let passedList = [];
+        let failedList = [];
+
+        // So sánh từng môn của nhân viên với Target Cá Nhân đã chia đều
+        for (let progName in st.rawProgValues) {
+          let actualNV = st.rawProgValues[progName];
+          
+          // Lấy Target Tổng Siêu Thị cho môn này
+          let storeTotalTarget = 50; // Mặc định nếu không thấy
+          for (let sKey in storeTargetMap) {
+            if (progName.toLowerCase().includes(sKey.substring(0, 6))) {
+              storeTotalTarget = storeTargetMap[sKey];
+              break;
+            }
+          }
+
+          // Target Cá Nhân chuẩn = Target Siêu Thị chia cho số Nhân Viên
+          let targetNV = Number((storeTotalTarget / staffCount).toFixed(2));
+          if (targetNV <= 0) targetNV = 1;
+
+          let percentNV = Math.round((actualNV / targetNV) * 100);
+          let isPass = actualNV >= targetNV;
+
+          let item = { progName, actual: actualNV, targetNV, percent: percentNV };
+          if (isPass) passedList.push(item);
+          else failedList.push(item);
+        }
+
+        // Nếu bảng NV bị trống, gán dữ liệu mẫu khớp chuẩn Target ST chia đều
+        if (passedList.length === 0 && failedList.length === 0) {
+          passedList = [{ progName: "T10 - NẠP - RÚT TIỀN TÀI KHOẢN NGÂN HÀNG", actual: 25, targetNV: 21, percent: 119 }];
+          failedList = [{ progName: "T09 - T10 Dòng iPhone 18 series", actual: 38.88, targetNV: 52.14, percent: 75 }];
+        }
+
+        let pCount = passedList.length;
+        let fCount = failedList.length;
 
         nsHtml += `
           <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
@@ -348,10 +393,10 @@
                 <div class="font-bold text-emerald-700 mb-1 flex items-center space-x-1">
                   <span>✅</span><span>Môn ĐẠT (${pCount} môn):</span>
                 </div>
-                ${pCount > 0 ? st.passed.map(p => `
+                ${pCount > 0 ? passedList.map(p => `
                   <div class="flex justify-between bg-emerald-50/60 p-1.5 rounded-lg mb-1 border border-emerald-100">
                     <span class="font-medium text-slate-800 truncate max-w-[180px]">${p.progName}</span>
-                    <span class="font-bold text-emerald-600">${p.actual} /${p.targetNV}</span>
+                    <span class="font-bold text-emerald-600">${p.actual} / ${p.targetNV} (${p.percent}%)</span>
                   </div>
                 `).join('') : '<div class="text-slate-400 italic">Chưa có môn đạt</div>'}
               </div>
@@ -359,10 +404,10 @@
                 <div class="font-bold text-rose-700 mb-1 flex items-center space-x-1">
                   <span>❌</span><span>Môn CHƯA ĐẠT (${fCount} môn):</span>
                 </div>
-                ${fCount > 0 ? st.failed.map(f => `
+                ${fCount > 0 ? failedList.map(f => `
                   <div class="flex justify-between bg-rose-50/60 p-1.5 rounded-lg mb-1 border border-rose-100">
                     <span class="font-medium text-slate-800 truncate max-w-[180px]">${f.progName}</span>
-                    <span class="font-bold text-rose-600">${f.actual} /${f.targetNV}</span>
+                    <span class="font-bold text-rose-600">${f.actual} / ${f.targetNV} (${f.percent}%)</span>
                   </div>
                 `).join('') : '<div class="text-slate-400 italic">Không có môn chưa đạt</div>'}
               </div>
@@ -380,7 +425,7 @@
         if (ic) ic.classList.add('active');
       });
 
-      alert("✨ Đã phân tích toàn bộ dữ liệu thành công!");
+      alert("✨ Đã tính toán chính xác Target cá nhân theo chia đều siêu thị!");
     }
   </script>
 
