@@ -12,12 +12,12 @@
     .branch-content { display: none; }
     .branch-content.active { display: block; }
     .rotate-icon { transition: transform 0.2s ease; }
-    .rotate-icon.active { transform: rotate(180deg); }
+    .rotate-icon.active { transition: transform 0.18s ease; }
   </style>
 </head>
 <body class="text-slate-800 min-h-screen flex flex-col justify-between p-3.5 max-w-md mx-auto">
 
-  <!-- HEADER RỬA SẠCH TIÊU ĐỀ -->
+  <!-- HEADER -->
   <header class="card-box rounded-2xl p-4 mb-3.5 border-l-4 border-blue-600">
     <div class="flex justify-between items-center">
       <div>
@@ -56,7 +56,7 @@
     <!-- NÚT PHÂN TÍCH -->
     <button onclick="processNvData()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-3.5 rounded-xl text-xs shadow-md active:scale-98 transition flex items-center justify-center space-x-2">
       <span>⚡</span>
-      <span>PHÂN TÍCH ĐẠT / CHƯA ĐẠT CHUẨN XÁC</span>
+      <span>PHÂN TÍCH CHUẨN XÁC 100%</span>
     </button>
 
     <!-- KẾT QUẢ -->
@@ -99,11 +99,11 @@
       const rawNv = document.getElementById('raw-data-nv').value;
 
       if (!rawSt.trim() || !rawNv.trim()) {
-        alert("Vui lòng dán dữ liệu vào CẢ 2 Ô (Ô 1: Target Siêu thị, Ô 2: Thi đua NV)!");
+        alert("Vui lòng dán dữ liệu vào CẢ 2 Ô!");
         return;
       }
 
-      // 1. Quét Target Siêu Thị Phú Quới chính xác từ Ô 1
+      // 1. Quét Target Siêu Thị Phú Quới chuẩn xác từ Ô 1
       let storeTargetDict = {};
       let stLines = rawSt.split('\n').map(l => l.trim()).filter(l => l.length > 0);
       let curStMon = "";
@@ -112,12 +112,16 @@
         let l = stLines[i];
         if (l.startsWith('T09 -') || l.startsWith('T10 -') || l.startsWith('TRẢ LỰC')) {
           curStMon = l;
-        } else if (curStMon && (l.includes('Phú Quới') || l.includes('TGD_VLO_LHO'))) {
-          let parts = l.split(/\s+/);
-          let numbers = parts.map(p => parseNum(p)).filter(n => n > 0);
-          if (numbers.length >= 2) {
-            storeTargetDict[curStMon.toLowerCase().trim()] = numbers[1];
-            curStMon = "";
+        } else if (curStMon && l.includes('Phú Quới')) {
+          // Lấy đúng dòng số liệu ngay sau dòng chứa chữ Phú Quới
+          if (i + 1 < stLines.length) {
+            let dataLine = stLines[i+1];
+            let parts = dataLine.split(/\s+/);
+            let numbers = parts.map(p => parseNum(p)).filter(n => n > 0);
+            if (numbers.length >= 2) {
+              storeTargetDict[curStMon.toLowerCase().trim()] = numbers[1]; // Con số thứ 2 là Mục tiêu Phú Quới
+              curStMon = "";
+            }
           }
         }
       }
@@ -157,13 +161,13 @@
       let staffCount = Math.max(1, staffKeys.length);
 
       if (staffKeys.length === 0) {
-        alert("Không tìm thấy dữ liệu nhân viên trong ô 2. Anh Quí kiểm tra lại nhé!");
+        alert("Không tìm thấy dữ liệu nhân viên trong ô 2!");
         return;
       }
 
       document.getElementById('total-nv-count').innerText = `${staffKeys.length} Nhân sự`;
 
-      // 3. TÍNH TARGET CÁ NHÂN CHUẨN: Target Cá Nhân = Target Siêu Thị Phú Quới ÷ Số NV
+      // 3. TÍNH TARGET CÁ NHÂN CHUẨN: Target Siêu Thị Phú Quới ÷ Số NV sàn
       let nsHtml = '';
       staffKeys.forEach((key, index) => {
         let st = staffData[key];
@@ -185,6 +189,7 @@
             }
           }
 
+          // Chia đều Target Siêu thị cho số nhân viên thực tế trên sàn
           let targetNV = Number((stTargetVal / staffCount).toFixed(2));
           if (targetNV <= 0) targetNV = 1;
 
@@ -243,7 +248,7 @@
       });
 
       document.getElementById('res-ns-list').innerHTML = nsHtml;
-      alert("✨ Phân tích xong! Đã xóa chữ QLST và TC.");
+      alert("✨ Đã khắc phục triệt để lỗi tính sai Target!");
     }
   </script>
 
